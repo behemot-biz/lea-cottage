@@ -1,0 +1,1 @@
+web: gunicorn lea_cottage.wsgi
