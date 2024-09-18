@@ -25,14 +25,14 @@ class Item(models.Model):
 
 
 class Quantity(models.Model):
-    unit = models.CharField(max_length=50)  # E.g., "pieces", "grams", "milliliters"
+    unit = models.CharField(max_length=50)
 
     def __str__(self):
         return self.unit
     
 
 class Preserve(models.Model):
-    method = models.CharField(max_length=50)  # E.g., "fresh", "frozen", "canned", "pickled"
+    method = models.CharField(max_length=50)
 
     def __str__(self):
         return self.method
@@ -42,11 +42,10 @@ STATUS = ((0, "Available"), (1, "Reserved"), (1, "Sold"))
 
 
 class StockItem(models.Model):
-    item = models.ForeignKey('Item', on_delete=models.CASCADE)  # Link to the Item model
+    item = models.ForeignKey('Item', on_delete=models.CASCADE)
     item_quantity = models.IntegerField()
-    quantity = models.ForeignKey(Quantity, on_delete=models.CASCADE)  # Quantity info
-    preserve = models.ForeignKey(Preserve, on_delete=models.CASCADE)  # Preservation method
-    #stock_quantity = models.PositiveIntegerField()  # The actual quantity available
+    quantity = models.ForeignKey(Quantity, on_delete=models.CASCADE)
+    preserve = models.ForeignKey(Preserve, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
 

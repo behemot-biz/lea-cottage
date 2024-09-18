@@ -11,7 +11,8 @@ class ItemList(generic.ListView):
 
 
 class StockItemList(generic.ListView):
-    model = StockItem
+    #model = StockItem
+    queryset = StockItem.objects.all().filter(status=0).order_by("item", "created_on", "preserve")
     template_name = "product/stock_item_list.html"
     context_object_name = "stock_items"
 
