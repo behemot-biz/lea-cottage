@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item list</title>
+</head>
+
+<body>
+    
+        {% for entry in stock_items_with_ingredients %}
+
+        <p>{{ entry.stock_item.item.name }}</p>
+        <p> ({{ entry.stock_item.item_quantity }} {{ entry.stock_item.quantity.unit }}, {{ entry.stock_item.preserve.method }})
+        </p>
+        <p><strong>Ingredients:</strong> 
+   
+            {% for ingredient in entry.ingredients %}
+                {{ ingredient.name }}, 
+            {% endfor %}
+        </p>
+        <p>{{ entry.stock_item.get_status_display }}</p>
+    {% endfor %}
+
+</body>
+
+</html>
