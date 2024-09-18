@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ingredient, Item
+from .models import Ingredient, Item, Quantity, Preserve, StockItem
 
 # Register your models here.
 @admin.register(Item)
@@ -18,3 +18,19 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+
+
+@admin.register(Quantity)
+class QuantityAdmin(admin.ModelAdmin):
+    list_display = ('id', 'unit')
+
+
+@admin.register(Preserve)
+class PreserveAdmin(admin.ModelAdmin):
+    list_display = ('id', 'method')
+
+
+@admin.register(StockItem)
+class StockItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'item', 'item_quantity', 'quantity', 'preserve', 'created_on', 'status')
+    list_display_links = ('item',)
