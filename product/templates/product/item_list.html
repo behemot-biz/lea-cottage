@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item list</title>
+</head>
+
+<body>
+    <h1>Item list</h1>
+
+        {% for item in items %}
+            <h3>{{ item.name }}</h3>
+
+            <p> <strong>Ingredients:</strong> 
+                {% for ingredient in item.ingredients.all %}
+                    {{ ingredient.name }}, 
+                {% endfor %}
+            </p>
+        {% endfor %}
+
+</body>
+
+</html>
