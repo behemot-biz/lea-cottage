@@ -13,7 +13,7 @@ class ItemList(generic.ListView):
 class StockItemList(generic.ListView):
     #model = StockItem
     queryset = StockItem.objects.all().filter(status=0).order_by("item", "created_on", "preserve")
-    template_name = "product/stock_item_list.html"
+    template_name = "product/index.html"
     context_object_name = "stock_items"
 
     def get_context_data(self, **kwargs):
