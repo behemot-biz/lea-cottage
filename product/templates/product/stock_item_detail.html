@@ -2,6 +2,7 @@
 
 {% block content %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 <div class="masthead">
     <div class="container">
@@ -30,6 +31,25 @@
                 <p class="card-text">{{ stock_item.item_quantity }} {{ stock_item.quantity.unit }} - {{ stock_item.preserve.method }}</p>
                 <!-- <p class="card-text">{{ stock_item.item.ingredients.description | safe }}</p> -->
                 <p class="card-text">Status: {{ stock_item.get_status_display }}</p>
+                <p>{{ stock_item.reserved_by }}</p>
+                <p>{{ stock_item.reserved_note }}</p>
+                <p>
+                    {% if user.is_authenticated %}
+                    <h3>Leave a comment:</h3>
+                    <p>Reserving as: {{ user.username }}</p>
+                    <form id="commentForm" method="post"
+                      style="margin-top: 1.3em;">
+                      {{ reserve_form | crispy }}
+                      {% csrf_token %}
+                      <button id="submitButton" type="submit"
+                        class="btn btn-signup btn-lg">Submit</button>
+                    </form>
+                    {% else %}
+                    <p>Log in to leave a comment</p>
+                    {% endif %}
+                    
+
+                </p>
 
                 <h3>Ingredients:</h3>
                 <p class="card-text">

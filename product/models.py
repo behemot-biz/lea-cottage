@@ -50,6 +50,7 @@ class StockItem(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     reserved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    reserved_note = models.CharField(max_length=100, blank=True)
     reserved_date = models.DateField(null=True, blank=True)
 
     def __str__(self):

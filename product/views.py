@@ -1,6 +1,9 @@
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.contrib import messages
 from .models import Item, StockItem
+from .forms import ReservItemForm
 
 
 # Create your views here.
@@ -14,6 +17,7 @@ class StockItemList(generic.ListView):
     queryset = StockItem.objects.all().filter(status=0).order_by("item", "created_on", "preserve")
     template_name = "product/index.html"
     context_object_name = "stock_items"
+  
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,8 +38,29 @@ class StockItemList(generic.ListView):
 def stock_item_detail(request, id):
     stock_item = get_object_or_404(StockItem, id=id)
 
+    if request.method == "POST":
+        reserve_form = ReservItemForm(data=request.POST, instance=stock_item)
+        if reserve_form.is_valid():
+        
+            stock_item = reserve_form.save(commit=False)
+            stock_item.reserved_by = request.user
+            stock_item.reserved_note = reserve_form.cleaned_data['reserved_note']
+            stock_item.reserved_date = timezone.now()
+            stock_item.status = 1
+            # comment.post = post
+            stock_item.save()
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Your reservation is stored'
+            )
+
+    reserve_form = ReservItemForm(instance=stock_item)
+
     return render(
         request,
         "product/stock_item_detail.html",
-        {"stock_item": stock_item},
+        {
+            "stock_item": stock_item,
+            "reserve_form": reserve_form
+        },
     )
