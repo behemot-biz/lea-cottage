@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Item, StockItem
 
@@ -11,7 +11,6 @@ class ItemList(generic.ListView):
 
 
 class StockItemList(generic.ListView):
-    #model = StockItem
     queryset = StockItem.objects.all().filter(status=0).order_by("item", "created_on", "preserve")
     template_name = "product/index.html"
     context_object_name = "stock_items"
@@ -31,3 +30,12 @@ class StockItemList(generic.ListView):
         
         context['stock_items_with_ingredients'] = stock_items_with_ingredients
         return context
+
+def stock_item_detail(request, id):
+    stock_item = get_object_or_404(StockItem, id=id)
+
+    return render(
+        request,
+        "product/stock_item_detail.html",
+        {"stock_item": stock_item},
+    )

@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                             <a href="#" class="post-link">
-                                <h2 class="card-title">{{ entry.stock_item.item.name }}</h2>
+                                <h2 class="card-title"><a href="{% url 'stock_item_detail' entry.stock_item.id %}">{{ entry.stock_item.item.name }}</a></h2>
                             </a>
 
                             <hr />
