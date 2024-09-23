@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% if reservation_page %}
+{{ reservation_page.title }}<br>
+    {{ reservation_page.content }}
+{% else %}
+    <p>No reservations available.</p>
+{% endif %}
+
+</hr>
+    <H2>Current Reservations</H2>
+    {% for stock_item in stock_items %}
+    {{ stock_item.item.ingredients.id }}<br>
+        {{ stock_item.item.name }} - {{ stock_item.item_quantity }} {{ stock_item.quantity.unit }}<br>
+        <p><strong>Ingredients:</strong> 
+   
+            {% for ingredient in stock_item.item.ingredients.all %}
+        {{ ingredient.name }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+        </p>
+        {% endfor %}
+    
+
+         <H2>Earlier Reservations</H2>
+    {% for stock_item in old_stock_items %}
+    {{ stock_item.item.ingredients.id }}<br>
+    {{ stock_item.reserved_date }}: {{ stock_item.item.name }} - {{ stock_item.item_quantity }} {{ stock_item.quantity.unit }}<br>
+        {{ stock_item.reserved_date }}
+        </p>
+        {% endfor %}
+
+
+
+{% endblock content %}
