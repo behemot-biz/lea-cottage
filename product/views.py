@@ -41,13 +41,8 @@ def stock_item_detail(request, id):
     if request.method == "POST":
         reserve_form = ReservItemForm(data=request.POST, instance=stock_item)
         if reserve_form.is_valid():
-        
             stock_item = reserve_form.save(commit=False)
-            stock_item.reserved_by = request.user
-            stock_item.reserved_note = reserve_form.cleaned_data['reserved_note']
-            stock_item.reserved_date = timezone.now()
             stock_item.status = 1
-            # comment.post = post
             stock_item.save()
             messages.add_message(
                 request, messages.SUCCESS,

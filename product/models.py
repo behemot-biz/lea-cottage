@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User 
+# from reservation.models import MyReservation
 
 
 # class Meta:
@@ -49,9 +49,8 @@ class StockItem(models.Model):
     preserve = models.ForeignKey(Preserve, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-    reserved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    reserved_note = models.CharField(max_length=100, blank=True)
-    reserved_date = models.DateField(null=True, blank=True)
+    reservation = models.ForeignKey('reservation.MyReservation', on_delete=models.SET_NULL, null=True, blank=True)  # Use string reference
+
 
     def __str__(self):
         return f"{self.item.name} - {self.item_quantity} {self.quantity.unit} {self.created_on} ({self.preserve.method}) {self.status}"

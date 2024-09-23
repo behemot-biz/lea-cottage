@@ -5,7 +5,7 @@ from django_summernote.admin import SummernoteModelAdmin
 # Register your models here.
 @admin.register(Item)
 class ProductAdmin(SummernoteModelAdmin):
-    list_display = ('id', 'name', 'get_ingredient_names') #maybe remove id from list display
+    list_display = ('id', 'name', 'get_ingredient_names')
     list_display_links = ('name',)
     filter_horizontal = ('ingredients',)
 
@@ -32,9 +32,12 @@ class PreserveAdmin(SummernoteModelAdmin):
 
 
 @admin.register(StockItem)
-class StockItemAdmin(SummernoteModelAdmin):
-    list_display = ('id', 'item', 'item_quantity', 'quantity', 'preserve', 'created_on', 'status')
+class StockItemAdmin(admin.ModelAdmin):
+    list_display = ('id','item', 'item_quantity', 'quantity', 'preserve', 'created_on', 'status', 'reservation')
+    search_fields = ['item__name']
     list_display_links = ('item',)
     list_filter = ('status', 'item', 'created_on')
-    search_fields = ['item']
-    #summernote_fields = ('item',)
+    readonly_fields = ['reservation']
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('reservation')
