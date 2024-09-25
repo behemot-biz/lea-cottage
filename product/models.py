@@ -49,7 +49,7 @@ class StockItem(models.Model):
     preserve = models.ForeignKey(Preserve, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-    reservation = models.ForeignKey('reservation.MyReservation', on_delete=models.SET_NULL, null=True, blank=True)  # Use string reference
+    reservation = models.ForeignKey('reservation.MyReservation', on_delete=models.SET_NULL, null=True, blank=True, related_name='stock_items')  # Use string reference
 
 
     def __str__(self):

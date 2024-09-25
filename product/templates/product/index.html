@@ -2,51 +2,39 @@
 
 {% block content %}
 
+
 <!-- index.html content starts here -->
 <div class="container-fluid">
     <div class="row">
-
-        <!-- Blog Entries Column -->
-        <div class="col-12 mt-3 left">
-            <div class="row">
-                {% for entry in stock_items_with_ingredients %}
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="image-container">
-                                <div class="badge rounded-pill bg-success">
-                                    <p class="author">{{ entry.stock_item.preserve.method }}</p>
-                                </div>
-                            </div>
-                            <a href="#" class="post-link">
-                                <h2 class="card-title"><a href="{% url 'stock_item_detail' entry.stock_item.id %}">{{ entry.stock_item.item.name }}</a></h2>
-                            </a>
-
-                            <hr />
-                            <p class="card-text text-muted h6">({{ entry.stock_item.item_quantity }} {{ entry.stock_item.quantity.unit }})
-                            </p>
-                        </div>
+        {% for entry in stock_items_with_ingredients %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                
+                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                    <div class="card-body">
+                      <h5 class="card-title">{{ entry.stock_item.item.name }}</h5>
+                      <p class="card-text">Item description goes here</p>
+                      <p class="card-text">Item contains: package of {{ entry.stock_item.item_quantity }} {{ entry.stock_item.quantity.unit }}</p>
+                
+                      {% if user.is_authenticated %}
+                      <a href="{% url 'add_to_reservation' entry.stock_item.id %}" class="btn btn-primary">Reserve item</a>
+                      {% endif %}
+                      <a href="{% url 'stock_item_detail' entry.stock_item.id %}" class="btn btn-secondary">View item</a>
                     </div>
-                </div>
-                {% if forloop.counter|divisibleby:3 %}
-            </div>
-            <div class="row">
-                {% endif %}
-                {% endfor %}
-
+                  
             </div>
         </div>
+
+
+       
+            <!-- {{ entry.stock_item.preserve.method }}
+            <a href="{% url 'stock_item_detail' entry.stock_item.id %}">{{ entry.stock_item.item.name }}</a>
+            ({{ entry.stock_item.item_quantity }} {{ entry.stock_item.quantity.unit }}) -->
+            <!-- {% if forloop.counter|divisibleby:3 %}
+            {% endif %} -->
+        {% endfor %}
+        
     </div>
-    <!-- {% if is_paginated %}
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_next %}
-            <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %} -->
 </div>
 
-<!-- index.html content ends here -->
 {% endblock %}
