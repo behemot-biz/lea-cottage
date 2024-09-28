@@ -125,3 +125,19 @@ def edit_reservation(request, reservation_id):
         'reservation': reservation,
     }
 )
+
+
+def delete_reservation(request, reservation_id):
+    reservation = get_object_or_404(MyReservation, reservation_id=reservation_id)
+
+    # Ensure that the reservation is either "Started" (0) or "Reserved" (1)
+    if reservation.reservation_complete in [0, 1]:
+        # Update stock items to make them available again
+        for stock_item in reservation.stock_items.all():
+            stock_item.status = 0  # Mark stock item as available
+            stock_item.save()
+
+        # Delete the reservation
+        reservation.delete()
+
+    return redirect('reservation')  # Redirect to reservation list

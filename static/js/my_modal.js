@@ -5,6 +5,7 @@ function getTodayDate() {
     var year = today.getFullYear();
     return year + '-' + month + '-' + day;
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     var reserveModal = document.getElementById('reserveModal');
 
@@ -68,3 +69,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    var deleteModal = document.getElementById('deleteModal');
+
+    deleteModal.addEventListener('show.bs.modal', function(event) {
+        var button = event.relatedTarget;  // Button that triggered the modal
+        var reservationId = button.getAttribute('data-id');  // Extract the reservation ID
+        
+        var form = deleteModal.querySelector('form');  // Select the form inside the modal
+        
+        if (form && reservationId) {
+            // Set the action attribute if form exists
+            form.action = `/reservation/delete_reservation/${reservationId}/`;
+        } else {
+            console.error('Form or reservationId is missing.');
+        }
+    });
+});
+
