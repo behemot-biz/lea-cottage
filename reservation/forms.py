@@ -2,7 +2,7 @@ from django import forms
 from reservation.models import MyReservation
 from django.utils import timezone
 
-class CompleteReservationForm(forms.ModelForm):
+class StoreReservationForm(forms.ModelForm):
     class Meta:
         model = MyReservation
         fields = ['reserved_note', 'reserved_date']
@@ -21,3 +21,21 @@ class CompleteReservationForm(forms.ModelForm):
             self.initial['reserved_date'] = timezone.now().date()
 
         self.fields['reserved_note'].required = False  # Make note optional
+
+
+class EditReservationForm(forms.ModelForm):
+    class Meta:
+        model = MyReservation
+        fields = ['reserved_note', 'reserved_date']
+        labels = {
+            'reserved_note': 'Edit your message (optional)',
+            'reserved_date': 'Update pickup date',
+        }
+        widgets = {
+            'reserved_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.instance.reserved_date:
+            self.initial['reserved_date'] = timezone.now().date()

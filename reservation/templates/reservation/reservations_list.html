@@ -1,79 +1,121 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
 {% load static %}
-
-
+<script>
+    var csrfToken = "{{ csrf_token }}";
+</script>
 <div class="container">
     <div class="row">
         {% if reservation_page %}
         {{ reservation_page.title }}<br>
             {{ reservation_page.content }}
         {% else %}
-            <p>No reservations available.</p>
+            <p>No page data available.</p>
         {% endif %}
+    </div>
+</div>
 
-        <hr>
-        <h1>Reservation Details</h1>
-        <p>Reservation ID: {{ current_reservation.reservation_id }}</p>
-        <p>Reserved By: {{ current_reservation.reserved_by }}</p>
-        <p>Reservation status: {{ current_reservation.get_reservation_complete_display }}</p>
-        <p>Reservation date: {{ current_reservation.reserved_date }}</p>
-        <p>Reservation note: {{ current_reservation.reserved_note }}</p>
-
-        <b>Reserved Item(s):</b><br>
-        {% for stock_item in current_reservation.get_stock_items %}
-        <p>{{ stock_item.item.name }} (Quantity: {{ stock_item.item_quantity }})</p>
-        {% endfor %}
-
-        
-        {% if current_reservation.reservation_complete == 0 %}
-       <p> Current reservation id: {{ current_reservation.reservation_id }}</p>
-
-        <form method="post" action="{% url 'complete_reservation' current_reservation.reservation_id %}">
-        {% csrf_token %}
-
-        <!-- Render form fields for note and pickup date -->
-
-        <div class="mb-3">
-            {{ form.reserved_date.label_tag }}
-            {{ form.reserved_date }}
-        </div>
-        <div class="mb-3">
-            {{ form.reserved_note.label_tag }}
-            {{ form.reserved_note }}
-        </div>
-
-        <a href="{% url 'home' %}"><button type="button" class="btn btn-primary">Add More Items</button></a>
-        <button type="submit" class="btn btn-primary">Complete Reservation</button>
-        </form>
-        {% else %}
-        <div class="mb-3">
-        <a href="#" class="btn btn-primary">Edit Reservation</a>
-        </div>
-        {% endif %}
+<div class="container">
+    <div class="row">
+            {% for reservation in active_reservation %}
+        	<div class="col-12 col-md">
+				<div class="card h-100 light-bg">
+               	 	<div class="card-body">
+                    	<h4 class="card-title">Reservation (ID: {{ reservation.reservation_id }})</h4>
+                    	<p class="card-text">
+                        	<span class="{% if not reservation.reserved_date %}d-none{% endif %} d-block">
+                            Pickup date: {{ reservation.reserved_date|default:"" }}
+                        	<span>
+                        	<span class="{% if not reservation.reserved_note %}d-none{% endif %} d-block">
+                            Note: {{ reservation.reserved_note|default:"" }}
+                        	</span>
+                        	<ul>
+                            	{% for stock_item in reservation.stock_items.all %}
+                            	<li>{{ stock_item.item.name }} - Quantity: {{ stock_item.item_quantity }}</li>
+                           	 {% endfor %}
+                        	</ul>
+                    	</p>
     
-        <H2>Previous Reservations</H2>
+						{% if reservation.reservation_complete == 0 %}
 
-        {% for reservation in old_reservation %}
-        
-           <div> 
-            id: {{ reservation.reservation_id }}<br>
-            date: {{ reservation.reserved_date }}<br>
-            date: {{ reservation.updated_on }}<br>
-        
-         <b>Items in this Reservation:</b><br>
-       
-             {% for stock_item in reservation.stock_items.all %}
-                 
-                     {{ stock_item.item.name }} - Quantity: {{ stock_item.stock_quantity }} - Preserve: {{ stock_item.preserve }}<br>
-                 
-             {% endfor %}
+                        <!-- Buttons/form -->
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Add More Items</a>
 
+                        <button type="button" class="btn btn-success" 
+                            data-id="{{ reservation.reservation_id }}" 
+                            data-status="{{ reservation.reservation_complete }}" 
+                            data-date="{% if reservation.reserved_date %}{{ reservation.reserved_date|date:'Y-m-d' }}{% else %}{% now 'Y-m-d' %}{% endif %}"
+                            data-note="{{ reservation.reserved_note }}"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#reserveModal">
+                                Reserve Item
+                        </button>
+
+						{% elif reservation.reservation_complete == 1 %}
+
+						<!-- Buttons/form -->
+            			<button type="button" class="btn btn-success" 
+                			data-id="{{ reservation.reservation_id }}" 
+                			data-status="{{ reservation.reservation_complete }}" 
+                			data-date="{{ reservation.reserved_date|date:'Y-m-d' }}"
+                			data-note="{{ reservation.reserved_note }}"
+                			data-bs-toggle="modal" 
+                			data-bs-target="#reserveModal">
+                    			Edit Item
+            			</button>
+
+						{% else %}
+							<p>No active reservations.</p>
+						{% endif %}
+				    </div>
+                </div>
+            </div> 
+            {% endfor %}
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card mt-5 mb-5">
+                <h2>Past Reservations</h2>
+                {% for reservation in old_reservations %}
+                <div>
+                    <p>Reservation ID: {{ reservation.reservation_id }}</p>
+                    <p>Date: {{ reservation.reserved_date }}</p>
+                    <p>Note: {{ reservation.reserved_note }}</p>
+                    <h4>Items:</h4>
+                    <ul>
+                        {% for stock_item in reservation.stock_items.all %}
+                        <li>{{ stock_item.item.name }} - content {{ stock_item.item_quantity }} {{ stock_item.quantity }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <hr>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
+    </div>
+</div>
 
+
+<!-- Reserve Item Modal -->
+<div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reserveModalLabel">Reserve Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBodyContent">
+                <!-- Modal content will be updated dynamically -->
+            </div>
+        </div>
     </div>
 </div>
 
 {% endblock content %}
+{% block extras %}
+<script src="{% static 'js/my_modal.js' %}"></script>
+{% endblock %}
