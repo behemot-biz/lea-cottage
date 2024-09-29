@@ -37,16 +37,15 @@
                         	</ul>
                     	</p>
     
-						{% if reservation.reservation_complete == 0 %}
-
                         <button type="button" class="btn btn-danger" 
                             data-bs-toggle="modal" 
                             data-bs-target="#deleteModal" 
                             data-id="{{ reservation.reservation_id }}">
-                                Delete Reservation
+                                Delete
                         </button>
-                        <a href="{% url 'home' %}" class="btn btn-secondary">Add More Items</a>
-
+                        {% if reservation.reservation_complete == 0 %}
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Add Items</a>
+                        {% endif %}
                         <button type="button" class="btn btn-success" 
                             data-id="{{ reservation.reservation_id }}" 
                             data-status="{{ reservation.reservation_complete }}" 
@@ -54,29 +53,12 @@
                             data-note="{{ reservation.reserved_note }}"
                             data-bs-toggle="modal" 
                             data-bs-target="#reserveModal">
-                                Reserve Item
+                            {% if reservation.reservation_complete == 0 %}
+                                Submit
+                            {% elif reservation.reservation_complete == 1 %}
+                                Edit
+                            {% endif %}
                         </button>
-
-						{% elif reservation.reservation_complete == 1 %}
-
-                        <button type="button" class="btn btn-danger" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#deleteModal" 
-                            data-id="{{ reservation.reservation_id }}">
-                                Delete Reservation
-                        </button>
-            			<button type="button" class="btn btn-success" 
-                			data-id="{{ reservation.reservation_id }}" 
-                			data-status="{{ reservation.reservation_complete }}" 
-                			data-date="{{ reservation.reserved_date|date:'Y-m-d' }}"
-                			data-note="{{ reservation.reserved_note }}"
-                			data-bs-toggle="modal" 
-                			data-bs-target="#reserveModal">
-                    			Edit Item
-            			</button>
-						{% else %}
-							<p>No active reservations.</p>
-						{% endif %}
 				    </div>
                 </div>
             </div> 

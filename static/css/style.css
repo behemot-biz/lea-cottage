@@ -14,8 +14,6 @@ body {
     flex-shrink: 0;
     align-items: center;
     justify-content: flex-end;
-    padding: .75rem;
-    margin: .25rem;
     border-bottom-right-radius: calc(.3rem - 1px);
     border-bottom-left-radius: calc(.3rem - 1px);
 }
