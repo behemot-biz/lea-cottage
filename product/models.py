@@ -1,5 +1,9 @@
 from django.db import models
-# from reservation.models import MyReservation
+from cloudinary.models import CloudinaryField
+
+
+# FOR MY IMAGES
+# featured_image = CloudinaryField('image', default='placeholder')
 
 
 # class Meta:
@@ -16,6 +20,7 @@ class Ingredient(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
+    item_image = CloudinaryField('image', default='placeholder')
     ingredients = models.ManyToManyField(Ingredient)
 
     def __str__(self):

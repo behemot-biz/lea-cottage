@@ -1,26 +1,36 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
 
 <!-- index.html content starts here -->
-<div class="container-fluid">
+<div class="container-fluid bg-primary pt-3">
     <div class="row">
         {% for entry in stock_items_with_ingredients %}
-        <div class="col-md-4">
-            <div class="card mb-4">
-                
-                    <!-- <img src="..." class="card-img-top" alt="..."> -->
-                    <div class="card-body">
-                      <h5 class="card-title">{{ entry.stock_item.item.name }}</h5>
-                      <p class="card-text">Item description goes here</p>
-                      <p class="card-text">Item contains: package of {{ entry.stock_item.item_quantity }} {{ entry.stock_item.quantity.unit }}</p>
-                
-                      {% if user.is_authenticated %}
-                      <a href="{% url 'add_to_reservation' entry.stock_item.id %}" class="btn btn-primary">Reserve item</a>
-                      {% endif %}
-                      <a href="{% url 'stock_item_detail' entry.stock_item.id %}" class="btn btn-secondary">View item</a>
-                    </div>
+        <div class="col-12 col-6 col-md-4 col-lg-3  mb-4">
+            <div class="card  h-100 stock-item-card">
+                <div class="card-img-top img-container" data-bg-image="{% if not 'placeholder' in entry.stock_item.item.item_image.url %}{{ entry.stock_item.item.item_image.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}">
+                </div>
+                <!-- <div class="card-img-top">
+                    {% if "placeholder" in entry.stock_item.item.item_image.url  %}
+                    <img class="img-fluid rounded-start" src="{% static 'images/default.jpg' %}" alt="placeholder image">
+                    {% else %}
+                    <img class="img-fluid rounded-start" src="{{ entry.stock_item.item.item_image.url }}"alt="{{ entry.stock_item.item.name }}">
+                    {% endif %}
+                </div> -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ entry.stock_item.item.name }}</h5>
+                    <p class="card-text">{{ entry.stock_item.preserve.method }}
+                        
+                        ({{ entry.stock_item.item_quantity }} {{ entry.stock_item.quantity.unit }})</p>
+                    <p class="card-text">Item contains: package of {{ entry.stock_item.item_quantity }} {{ entry.stock_item.quantity.unit }}</p>
+            
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'add_to_reservation' entry.stock_item.id %}" class="btn btn-primary">Reserve item</a>
+                    {% endif %}
+                    <a href="{% url 'stock_item_detail' entry.stock_item.id %}" class="btn btn-secondary">View item</a>
+                </div>
                   
             </div>
         </div>
@@ -37,4 +47,7 @@
     </div>
 </div>
 
+{% endblock %}
+{% block extras %}
+<script src="{% static 'js/set_bg_image.js' %}"></script>
 {% endblock %}
