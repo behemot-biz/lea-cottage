@@ -76,6 +76,11 @@ def add_to_reservation(request, stock_item_id):
     stock_item.status = 1  # Mark as reserved
     stock_item.save()
 
+    messages.add_message(
+                request, messages.SUCCESS,
+                    'Your reservation is stored, no more items can be added'
+                )
+
     # return redirect('reservation_detail')
     return redirect('reservation')
 
@@ -102,7 +107,7 @@ def store_reservation(request, reservation_id):
                 messages.add_message(
                 request, messages.SUCCESS,
                     'Your reservation is stored, no more items can be added'
-            )
+                )
 
                 return redirect('reservation')
             else:
@@ -128,12 +133,13 @@ def edit_reservation(request, reservation_id):
         form = EditReservationForm(request.POST, instance=reservation)
         if form.is_valid():
             form.save()
-            return redirect('reservation')
-        
-        messages.add_message(
+
+            messages.add_message(
                 request, messages.SUCCESS,
                  'Your reservation is updated and stored'
             )
+
+            return redirect('reservation')
     else:
         form = EditReservationForm(instance=reservation)
 
