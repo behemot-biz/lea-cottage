@@ -1,33 +1,27 @@
-body {
-    /* background-color: #ff0000; */
-}
-
 /* Apply Lora to headings */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lora', serif;
-  }
-  
-  /* Apply Poppins to body text */
-  body, p {
+}
+
+body, p {
     font-family: 'Poppins', sans-serif;
-  }
-  
-  /* Optional: Customize Bootstrap elements with your fonts */
-  .navbar-brand, .btn {
+}
+
+.navbar-brand, .btn {
     font-family: 'Poppins', sans-serif;
-  }
-  
-  .card-title {
-    font-family: 'Lora', serif;
-  }
+}
 
 .brand {
     font-family: 'Lora', serif;
-    /* font-family: Lato, sans-serif; */
     font-size: 1.4rem;
     font-weight: 700;
     color: #6b705c;
 }
+.hero {
+    height: 100%; 
+    background: url(../images/hero_img.webp) no-repeat left bottom;
+}
+
 .modal-btn-align {
     display: flex;
     flex-wrap: wrap;
@@ -37,100 +31,134 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom-right-radius: calc(.3rem - 1px);
     border-bottom-left-radius: calc(.3rem - 1px);
 }
+
 .modal-btn-align>* {
     margin: .25rem
 }
+
+/* Colors */
+.bg-default {
+    background-color: #fafafa;
+}
+
 /* Primary colors */
 .bg-primary {
-    background-color: #f5e3c3 !important; /* Light cream */
-  }
+    background-color: #f5e3c3 !important; 
+}
   
-  .text-primary {
-    color: #f5e3c3 !important; /* Light cream */
-  }
+.text-primary {
+    color: #f5e3c3 !important;
+}
   
-  /* Accent colors */
-  .bg-accent {
-    background-color: #f4a261; /* Soft Coral */
-  }
+/* Accent colors */
+.bg-accent {
+    background-color: #f4a261;
+}
+
+.text-accent {
+    color: #f4a261;
+}
+
+/* Neutral colors */
+.bg-neutral {
+    background-color: #6b705c; 
+}
   
-  .text-accent {
-    color: #f4a261; /* Soft Coral */
-  }
+.text-neutral {
+    color: #6b705c;
+}
   
-  /* Neutral colors */
-  .bg-neutral {
-    background-color: #6b705c; /* Warm Gray */
-  }
-  
-  .text-neutral {
-    color: #6b705c; /* Warm Gray */
-  }
-  
-  /* Customize buttons */
-  .btn-primary {
+/* Customize buttons */
+.btn-primary {
     background-color: #f4a261;
     border-color: #f4a261;
-  }
+}
   
-  .btn-secondary {
+.btn-secondary {
     background-color: #6b705c;
     border-color: #6b705c;
-  }
+}
   
-/* .light-bg {
-    background-color: #fff;
+
+/* Change text color in success alert */
+.alert.bg-success.success {
+    color: white;  /* Changes text color to white */
 }
 
-.dark-bg {
-    background-color: #445261;
+/* Change close button (X) to white */
+.alert.bg-success.success .btn-close {
+    background-color: white; 
+    filter: invert(1);  
 }
-
-.main-bg {
-    background-color: #F9FAFC;
-} */
-
-/* .card-group  {
-    padding-left: 0;
-    padding-right: 0;
-}
-.card-group .card:first-child {
-    padding-left: 0;
-    padding-right: 0;
-} */
 
 .card {
-    /* border: none;
-    background-color: transparent; */
-    /* flex-direction: row; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px; 
+    padding: 10px;
 }
+
+.card-title {
+    font-family: 'Lora', serif;
+}
+
+.card-footer {
+    padding: .5rem 1rem;
+    background-color: transparent;
+    border-top: none;
+}
+
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+}
+
 .stock-item-card {
-    max-width: 275px;  /* Limit the card's max width to 275px */
-    width: 100%;     /*width: 100%; Make sure it remains responsive */
-    margin: 0 auto;    /* Center the card within its column */
-  }
+    max-width: 275px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.thumbnail-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
 
 .img-container {
     height: 200px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 5px; /* Optional */
+    border-radius: 5px;
 }
   
-  /* Custom styles for very small screens */
-  @media (max-width: 400px) {
+/* Custom styles for very small screens */
+@media (max-width: 400px) {
     .stock-item-card {
-      max-width: 100%;  /* Allow cards to take full width on very small screens */
+        max-width: 100%;  /* Allow cards to take full width on very small screens */
     }
-  }
+}
+@media (max-width: 576px) {
+    .hero {
+    min-height: 400px;
+    background: url(../images/hero_img.webp) no-repeat left bottom / cover, linear-gradient(#6c705c80, #00000080);
+    background-blend-mode: overlay;  
+    }
+}
 
 @media (min-width: 992px) {
     .col-lg-custom {
       flex: 0 0 20%;
       max-width: 20%;
     }
-    .img-container {
-        height: 275px;
+}
+
+@media (min-width: 1200px) {
+    .card {
+        max-width: 260px;  /* Set a reasonable maximum width */
     }
-  }
+}

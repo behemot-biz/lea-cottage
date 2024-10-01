@@ -1,42 +1,57 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-{% load static %}
+
 <script>
     var csrfToken = "{{ csrf_token }}";
 </script>
-<div class="container">
-    <div class="row">
+
+<!-- Hero -->
+<div class="container-fluid bg-default">
+    <div class="row bg-neutral hero">
+        <div class="col-md-8 offset-md-4 py-5">
         {% if reservation_page %}
-        {{ reservation_page.title }}<br>
-            {{ reservation_page.content }}
+            {{ reservation_page.content| safe }}
         {% else %}
             <p>No page data available.</p>
         {% endif %}
+        </div>
     </div>
-</div>
+</div> 
 
 <div class="container">
-    <div class="row">
+    <div class="row pt-3">
             {% for reservation in active_reservation %}
-        	<div class="col-12 col-md">
+        	<div class="col-12 col-sm-6 mb-4 d-flex flex-column">
+                <h2>Reservations</h2>
 				<div class="card h-100 light-bg">
                	 	<div class="card-body">
-                    	<h4 class="card-title">Reservation (ID: {{ reservation.reservation_id }})</h4>
+                    	<h4 class="card-title">Reservation ID: {{ reservation.reservation_id }}</h4>
                     	<p class="card-text">
                         	<span class="{% if not reservation.reserved_date %}d-none{% endif %} d-block">
-                            Pickup date: {{ reservation.reserved_date|default:"" }}
+                            <strong>Pickup date:</strong> {{ reservation.reserved_date|default:"" }}
                         	<span>
                         	<span class="{% if not reservation.reserved_note %}d-none{% endif %} d-block">
-                            Note: {{ reservation.reserved_note|default:"" }}
+                                <strong>Note:</strong> {{ reservation.reserved_note|default:"" }}
                         	</span>
-                        	<ul>
-                            	{% for stock_item in reservation.stock_items.all %}
-                            	<li>{{ stock_item.item.name }} - Quantity: {{ stock_item.item_quantity }}</li>
-                           	 {% endfor %}
-                        	</ul>
-                    	</p>
-    
+                    	</p>   
+                        <div class="items">
+                            {% for item in reservation.stock_items.all %}
+                              <div class="d-flex align-items-center mb-2">
+                                <!-- Thumbnail image -->
+                                <img src="{{ item.item.item_image.url }}" class="thumbnail-img me-2" alt="{{ item.item.name }}">
+                                
+                                <!-- Item name and quantity -->
+                                <div>
+                                  <p class="mb-0">{{ item.item.name }}, {{ item.preserve.method }}</p>
+                                  <small>Quantity: {{ item.item_quantity }} {{ item.quantity.unit }}</small>
+                                </div>
+                              </div>
+                            {% endfor %}
+                          </div>
+				    </div>
+                    <div class="card-footer text-center">
                         <button type="button" class="btn btn-danger" 
                             data-bs-toggle="modal" 
                             data-bs-target="#deleteModal" 
@@ -59,18 +74,18 @@
                                 Edit
                             {% endif %}
                         </button>
-				    </div>
+                    </div>
                 </div>
             </div> 
             {% endfor %}
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
+<div class="container-fluid bg-neutral">
+    <div class="row ">
         <div class="col">
-            <div class="card mt-5 mb-5">
-                <h2>Past Reservations</h2>
+            <h2 class="text-white py-3">Reservations Collected</h2>
+            <div class="card">
                 {% for reservation in old_reservations %}
                 <div>
                     <p>Reservation ID: {{ reservation.reservation_id }}</p>
