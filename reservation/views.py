@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from product.models import StockItem
 from .models import ReservationPage, MyReservation
 from .forms import EditReservationForm, StoreReservationForm
@@ -9,7 +10,8 @@ def my_reservations(request):
         ).order_by('-updated_on').first()
     # Get all active reservations
     active_reservation = MyReservation.objects.filter(
-        reserved_by=request.user, reservation_complete__lt=2)
+        reserved_by=request.user, reservation_complete__lt=2).order_by(
+        '-reservation_id')
     old_reservations = MyReservation.objects.filter(
         reserved_by=request.user, reservation_complete=2)
 
@@ -97,6 +99,11 @@ def store_reservation(request, reservation_id):
                     stock_item.status = 1  # Mark as reserved
                     stock_item.save()
 
+                messages.add_message(
+                request, messages.SUCCESS,
+                    'Your reservation is stored, no more items can be added'
+            )
+
                 return redirect('reservation')
             else:
                 print(form.errors)
@@ -122,6 +129,11 @@ def edit_reservation(request, reservation_id):
         if form.is_valid():
             form.save()
             return redirect('reservation')
+        
+        messages.add_message(
+                request, messages.SUCCESS,
+                 'Your reservation is updated and stored'
+            )
     else:
         form = EditReservationForm(instance=reservation)
 
@@ -141,6 +153,11 @@ def delete_reservation(request, reservation_id):
         for stock_item in reservation.stock_items.all():
             stock_item.status = 0  # Mark stock item as available
             stock_item.save()
+
+        messages.add_message(
+                request, messages.SUCCESS,
+                 'Your reservation is deleted'
+            )
 
         # Delete the reservation
         reservation.delete()

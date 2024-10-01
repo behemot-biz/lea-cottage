@@ -7,11 +7,11 @@ from reservation.models import MyReservation
 from .models import Item, StockItem
 
 
-# Create your views here.
+# Create your views here. , "created_on", "preserve"
 
 class StockItemList(generic.ListView):
     queryset = StockItem.objects.all(
-        ).filter(status=0).order_by("item", "created_on", "preserve")
+        ).filter(status=0).order_by("-created_on")
     template_name = "product/index.html"
     context_object_name = "stock_items"
 
