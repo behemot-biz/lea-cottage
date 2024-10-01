@@ -31,7 +31,7 @@ reserveModal.addEventListener('show.bs.modal', function (event) {
                         <input type="date" id="reserved_date" name="reserved_date" class="form-control" value="${reservedDate}" min="${todayDate}">
                 </div>
                 <div class="mb-3">
-                    <label for="reserved_note">Reservation Note (optioal)</label>
+                    <label for="reserved_note">Reservation Note (optional)</label>
                     <textarea id="reserved_note" name="reserved_note" class="form-control">${reservedNote || ''}</textarea>
                 </div>
                 <div class="modal-btn-align">
@@ -49,7 +49,7 @@ reserveModal.addEventListener('show.bs.modal', function (event) {
                         <input type="date" id="reserved_date" name="reserved_date" class="form-control" value="${reservedDate}" min="${todayDate}">
                 </div>
                 <div class="mb-3">
-                    <label for="reserved_note">Reservation Note (optioal)</label>
+                    <label for="reserved_note">Reservation Note (optional)</label>
                     <textarea id="reserved_note" name="reserved_note" class="form-control">${reservedNote || ''}</textarea>
                 </div>
                 <div class="modal-btn-align">

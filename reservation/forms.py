@@ -1,6 +1,7 @@
 from django import forms
-from reservation.models import MyReservation
 from django.utils import timezone
+from reservation.models import MyReservation
+
 
 class StoreReservationForm(forms.ModelForm):
     class Meta:
@@ -11,7 +12,7 @@ class StoreReservationForm(forms.ModelForm):
             'reserved_date': 'Select a pickup date',  # Custom label
         }
         widgets = {
-            'reserved_date': forms.DateInput(attrs={'type': 'date'}),  # Use HTML date input type
+            'reserved_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
     def __init__(self, *args, **kwargs):

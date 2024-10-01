@@ -2,10 +2,6 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 
 
-# FOR MY IMAGES
-# featured_image = CloudinaryField('image', default='placeholder')
-
-
 # class Meta:
 #         ordering = ["created_on"]
 #     def __str__(self):
@@ -25,7 +21,7 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_ingredient_ids(self):
         return list(self.ingredients.values_list('id', flat=True))
 
@@ -35,7 +31,7 @@ class Quantity(models.Model):
 
     def __str__(self):
         return self.unit
-    
+
 
 class Preserve(models.Model):
     method = models.CharField(max_length=50)
@@ -54,10 +50,14 @@ class StockItem(models.Model):
     preserve = models.ForeignKey(Preserve, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-    reservation = models.ForeignKey('reservation.MyReservation', on_delete=models.SET_NULL, null=True, blank=True, related_name='stock_items')  # Use string reference
-
+    reservation = models.ForeignKey(
+        'reservation.MyReservation',
+        on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='stock_items')
 
     def __str__(self):
-        return f"{self.item.name} - {self.item_quantity} {self.quantity.unit} {self.created_on} ({self.preserve.method}) {self.status}"
-    
-    
+        return (
+            f"{self.item.name} - {self.item_quantity} "
+            f"{self.quantity.unit} {self.created_on} "
+            f"({self.preserve.method}) {self.status}"
+        )
