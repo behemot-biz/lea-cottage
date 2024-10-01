@@ -21,11 +21,14 @@
 </div> 
 
 <div class="container">
-    <div class="row pt-3">
+    <div class="row card-collection-width mx-auto pt-3">
+        <h2>Reservations</h2>
+
+        {% if active_reservation %}
             {% for reservation in active_reservation %}
-        	<div class="col-12 col-sm-6 mb-4 d-flex flex-column">
-                <h2>Reservations</h2>
-				<div class="card h-100 light-bg">
+        	<div class="{% if active_reservation|length == 1 %}col-12{% else %}col-md-6 col-sm-12{% endif %} mb-4">
+                
+				<div class="card reserve-card h-100 light-bg">
                	 	<div class="card-body">
                     	<h4 class="card-title">Reservation ID: {{ reservation.reservation_id }}</h4>
                     	<p class="card-text">
@@ -78,14 +81,23 @@
                 </div>
             </div> 
             {% endfor %}
+        {% else %}
+            <div class="col-12 my-5">
+                <h3>You have no active reservations.</h3>
+                <p>It looks like you haven’t reserved anything yet. Start adding items to your reservation now!</p>
+                <a href="{% url 'home' %}" class="btn btn-primary">Browse Items</a>
+            </div>
+        {% endif %}
+
     </div>
 </div>
 
 <div class="container-fluid bg-neutral">
-    <div class="row ">
-        <div class="col">
-            <h2 class="text-white py-3">Reservations Collected</h2>
-            <div class="card">
+    <div class="row card-collection-width mx-auto">
+        <h2 class="text-white py-3">Reservations Collected</h2>
+        <div class="col-lg-6 col-sm-12 mb-4">
+                
+				<div class="card h-100 light-bg">
                 {% for reservation in old_reservations %}
                 <div>
                     <p>Reservation ID: {{ reservation.reservation_id }}</p>

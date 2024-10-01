@@ -150,7 +150,19 @@ body, p {
     }
 }
 
+@media (min-width: 768px) {
+    .reserve-card {
+        min-width: 330px;
+    }
+    .card-footer {
+        padding: .5rem 0;
+    }
+}
+
 @media (min-width: 992px) {
+    .card-collection-width {
+        max-width: 1024px;
+    }
     .col-lg-custom {
       flex: 0 0 20%;
       max-width: 20%;
@@ -158,7 +170,8 @@ body, p {
 }
 
 @media (min-width: 1200px) {
-    .card {
+    
+    .stock-item-card {
         max-width: 260px;  /* Set a reasonable maximum width */
     }
 }
