@@ -6,6 +6,28 @@ from .forms import EditReservationForm, StoreReservationForm
 
 
 def my_reservations(request):
+    """
+    Displays the list of active and past reservations for the
+    logged-in user.
+
+    **Context**
+
+    `reservation_page`
+        The most recently updated instance of
+        :model:`reservation.ReservationPage`.
+    `active_reservation`
+        All active instances of :model:`reservation.MyReservation` where the
+        status is not complete.
+    `old_reservations`
+        All past instances of :model:`reservation.MyReservation` where the
+        reservation is complete.
+    `form`
+        The form to edit the currently selected reservation if applicable.
+
+    **Template:**
+
+    :template:`reservation/reservations_list.html`
+    """
     reservation_page = ReservationPage.objects.all(
         ).order_by('-updated_on').first()
     # Get all active reservations
@@ -47,45 +69,25 @@ def my_reservations(request):
     )
 
 
-def reservation_detail(request, id):
-    # Change the filter to reservation_id instead of id
-    reservation = get_object_or_404(MyReservation, reservation_id=id)
-    # Only show the form if the reservation is not complete
-    if reservation.reservation_complete == 0:
-        form = StoreReservationForm(instance=reservation)
-    else:
-        form = None
-
-    return render(request, 'reservation/reservations_list.html', {
-        'reservation': reservation,
-        'form': form
-    })
-
-
-def add_to_reservation(request, stock_item_id):
-    stock_item = get_object_or_404(StockItem, id=stock_item_id)
-
-    # Get or create a reservation
-    reservation, created = MyReservation.objects.get_or_create(
-        reserved_by=request.user,
-        reservation_complete=0  # Active reservation
-    )
-
-    # Add the stock item to the reservation
-    stock_item.reservation = reservation
-    stock_item.status = 1  # Mark as reserved
-    stock_item.save()
-
-    messages.add_message(
-                request, messages.SUCCESS,
-                    'Your reservation is stored, no more items can be added'
-                )
-
-    # return redirect('reservation_detail')
-    return redirect('reservation')
-
-
 def store_reservation(request, reservation_id):
+    """
+    Marks a reservation as complete and stores it.
+
+    **Context**
+
+    `reservation`
+        The instance of :model:`reservation.MyReservation` being updated.
+    `form`
+        The form used to update the reservation.
+
+    **Messages:**
+
+    A success message is displayed once the reservation is marked as complete.
+
+    **Redirects to:**
+
+    :view:`reservation`
+    """
     reservation = get_object_or_404(
             MyReservation,
             reservation_id=reservation_id)
@@ -105,7 +107,7 @@ def store_reservation(request, reservation_id):
                     stock_item.save()
 
                 messages.add_message(
-                request, messages.SUCCESS,
+                    request, messages.SUCCESS,
                     'Your reservation is stored, no more items can be added'
                 )
 
@@ -125,7 +127,24 @@ def store_reservation(request, reservation_id):
 
 
 def edit_reservation(request, reservation_id):
-    # Get the current reservation by reservation_id
+    """
+    Allows the user to edit an existing reservation.
+
+    **Context**
+
+    `reservation`
+        The instance of :model:`reservation.MyReservation` being edited.
+    `form`
+        The form used to edit the reservation.
+
+    **Messages:**
+
+    A success message is displayed once the reservation is updated.
+
+    **Redirects to:**
+
+    :view:`reservation`
+    """
     reservation = get_object_or_404(
         MyReservation, reservation_id=reservation_id)
 
@@ -136,7 +155,7 @@ def edit_reservation(request, reservation_id):
 
             messages.add_message(
                 request, messages.SUCCESS,
-                 'Your reservation is updated and stored'
+                'Your reservation is updated and stored'
             )
 
             return redirect('reservation')
@@ -150,6 +169,22 @@ def edit_reservation(request, reservation_id):
 
 
 def delete_reservation(request, reservation_id):
+    """
+    Deletes a reservation and updates the stock item statuses.
+
+    **Context**
+
+    `reservation`
+        The instance of :model:`reservation.MyReservation` being deleted.
+
+    **Messages:**
+
+    A success message is displayed once the reservation is deleted.
+
+    **Redirects to:**
+
+    :view:`reservation`
+    """
     reservation = get_object_or_404(
         MyReservation, reservation_id=reservation_id)
 
@@ -162,7 +197,7 @@ def delete_reservation(request, reservation_id):
 
         messages.add_message(
                 request, messages.SUCCESS,
-                 'Your reservation is deleted'
+                'Your reservation is deleted'
             )
 
         # Delete the reservation
