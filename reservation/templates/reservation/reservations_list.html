@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 {% load static %}
 
 {% block content %}
@@ -26,7 +27,7 @@
                 
 				<div class="card reserve-card h-100 light-bg">
                	 	<div class="card-body">
-                    	<h4 class="card-title">Reservation ID: {{ reservation.reservation_id }}</h4>
+                    	<div class="card-title reserv-card-custom-heading">Reservation ID: {{ reservation.reservation_id }}</div>
                     	<p class="card-text">
                         	<span class="{% if not reservation.reserved_date %}d-none{% endif %} d-block">
                             <strong>Pickup date:</strong> {{ reservation.reserved_date|default:"" }}
@@ -39,7 +40,7 @@
                             {% for item in reservation.stock_items.all %}
                               <div class="d-flex align-items-center mb-2">
                                 <!-- Thumbnail image -->
-                                <img src="{{ item.item.item_image.url }}" class="thumbnail-img me-2" alt="{{ item.item.name }}">
+                                <img src="{{ item.item.item_image.url|replace:'http://,https://' }}" class="thumbnail-img me-2" alt="{{ item.item.name }}">
                                 
                                 <!-- Item name and quantity -->
                                 <div>
