@@ -10,8 +10,12 @@
 <html class="h-100" lang="en">
 
 <head>
-    <title>Lea Cottage - Bakery and Preserves</title>
+    <title>Lea Cottage Home Bakery - Fresh Bakes from Our Cottage Kitchen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Lea Cottage Home Bakery offers homemade bread, pastries, and more, made with fresh ingredients from our garden. Visit us to taste the best of artisan baking.">
+    <meta charset="UTF-8">
+    <meta name="Petra Kallsjö Pullar" content="Lea Cottage Home Bakery">
+
 
     <!-- Google Fonts CSS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -24,54 +28,45 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-
+        
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
-
+    <link rel="preload" as="image" href="{% static 'images/hero_img.webp' %}" type="image/webp">
 
 </head>
 
-<body class="d-flex flex-column h-100">
+<body id="bootstrap-overrides" class="d-flex flex-column h-100">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}"><span class="brand">Lea Cottage</a>
+            <a class="navbar-brand" href="{% url 'home' %}"><span class="brand">Lea Cottage</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == home_url %}active" aria-current="page{% endif %}"
-                            href="{% url 'home' %}">Home</a>
-                    </li>
-                    
-                    
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-link {% if request.path == home_url %}active" aria-current="page{% endif %}"
+                       href="{% url 'home' %}">Home</a>
+                       
                     {% if user.is_authenticated %}
-                    <li class="nav-item"></li>
                         <a class="nav-link {% if request.path == reservation_url %}active" aria-current="page{% endif %}"
-                            href="{% url 'reservation' %}">My reservations</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == logout_url %}active" aria-current="page{% endif %}" href="{% url 'account_logout' %}">Logout</a>
-                    </li>
+                           href="{% url 'reservation' %}">My reservations</a>
+                        <a class="nav-link {% if request.path == logout_url %}active" aria-current="page{% endif %}"
+                           href="{% url 'account_logout' %}">Logout</a>
                     {% else %}
-                    <li class="nav-item">
                         <a class="nav-link {% if request.path == signup_url %}active" aria-current="page{% endif %}"
-                            href="{% url 'account_signup' %}">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == login_url %}active" aria-current="page{% endif %}" href="{% url 'account_login' %}">Login</a>
-                    </li>
+                           href="{% url 'account_signup' %}">Register</a>
+                        <a class="nav-link {% if request.path == login_url %}active" aria-current="page{% endif %}"
+                           href="{% url 'account_login' %}">Login</a>
                     {% endif %}
-                </ul>
+                </div>
             </div>
         </div>
     </nav>
+    
    <!-- displaying Django messages -->
     <div class="container">
         <div class="row">

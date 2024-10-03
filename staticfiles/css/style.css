@@ -1,3 +1,4 @@
+
 /* Apply Lora to headings */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lora', serif;
@@ -33,7 +34,7 @@ body, p {
 }
 
 .modal-btn-align>* {
-    margin: .25rem
+    margin: .25rem;
 }
 
 /* Colors */
@@ -43,11 +44,11 @@ body, p {
 
 /* Primary colors */
 .bg-primary {
-    background-color: #f5e3c3 !important; 
+    background-color: #f5e3c3; 
 }
   
 .text-primary {
-    color: #f5e3c3 !important;
+    color: #f5e3c3;
 }
   
 /* Accent colors */
@@ -68,21 +69,35 @@ body, p {
     color: #6b705c;
 }
   
-/* Customize buttons */
-.btn-primary {
-    background-color: #f4a261;
-    border-color: #f4a261;
+ /* Customize buttons */
+ .btn-primary {
+    background-color: #801818ff;
+    border-color: #801818ff;
 }
-  
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+    color: #801818ff;
+    background-color: #ffffff;
+    border-color: #801818ff;
+}
+
 .btn-secondary {
     background-color: #6b705c;
     border-color: #6b705c;
 }
 
-/* Change close button (X) to white .bg-success.success*/
+.btn-secondary:active, .btn-secondary:focus, .btn-secondary:hover {
+    color: #6b705c;
+    background-color: #ffffff;
+    border-color: #6b705c;
+}
+
+
+/* Change close button (X) to white for success alerts */
 .alert .btn-close {
     background-color: white; 
     filter: invert(1);  
+
 }
 
 .card {
@@ -98,9 +113,10 @@ body, p {
 }
 
 .card-footer {
-    padding: .5rem 1rem;
+    padding: .5rem 0rem;
     background-color: transparent;
     border-top: none;
+    max-width: max-content;
 }
 
 .card-img-top {
@@ -109,8 +125,8 @@ body, p {
     width: 100%;
 }
 
-.stock-item-card {
-    max-width: 275px;
+.stockitem-card {
+    max-width: 260px;
     width: 100%;
     margin: 0 auto;
 }
@@ -129,11 +145,15 @@ body, p {
     background-repeat: no-repeat;
     border-radius: 5px;
 }
+.card-custom-heading {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
   
 /* Custom styles for very small screens */
 @media (max-width: 400px) {
-    .stock-item-card {
-        max-width: 100%;  /* Allow cards to take full width on very small screens */
+    .stockitem-card {
+        max-width: 100%; 
     }
 }
 @media (max-width: 576px) {
@@ -148,15 +168,16 @@ body, p {
     .reserve-card {
         min-width: 330px;
     }
-    .card-footer {
-        padding: .5rem 0;
-    }
 }
 
 @media (min-width: 992px) {
-    .card-collection-width {
+    .reserv-collection-width {
         max-width: 1024px;
     }
+    .stockitem-collection-width  {
+        max-width: 1200px;
+    }
+
     .col-lg-custom {
       flex: 0 0 20%;
       max-width: 20%;
@@ -165,7 +186,7 @@ body, p {
 
 @media (min-width: 1200px) {
     
-    .stock-item-card {
-        max-width: 260px;  /* Set a reasonable maximum width */
+    .stockitem-card {
+        min-width: 260px;  /* Set a reasonable maximum width */
     }
 }
