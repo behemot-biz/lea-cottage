@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from product.models import StockItem
 from .models import ReservationPage, MyReservation
 from .forms import EditReservationForm, StoreReservationForm
 
 
+@login_required
 def my_reservations(request):
     """
     Displays the list of active and past reservations for the
@@ -30,32 +31,11 @@ def my_reservations(request):
     """
     reservation_page = ReservationPage.objects.all(
         ).order_by('-updated_on').first()
-    # Get all active reservations
     active_reservation = MyReservation.objects.filter(
         reserved_by=request.user, reservation_complete__lt=2).order_by(
         '-reservation_id')
     old_reservations = MyReservation.objects.filter(
         reserved_by=request.user, reservation_complete=2)
-
-    # For form processing, handle a specific reservation
-    # based on reservation_id (if passed)
-
-    reservation_id = request.POST.get('reservation_id')
-    if reservation_id:
-        reservation = get_object_or_404(
-            MyReservation, reservation_id=reservation_id)
-    else:
-        reservation = None
-
-    # Handle form submission for editing the specific reservation
-    if request.method == 'POST' and reservation:
-        form = StoreReservationForm(request.POST, instance=reservation)
-        if form.is_valid():
-            form.save()  # Save changes to the reservation
-            return redirect('reservation')  # Redirect back to reservation list
-    else:
-        form = StoreReservationForm(
-            instance=reservation) if reservation else None
 
     return render(
         request,
@@ -63,12 +43,12 @@ def my_reservations(request):
         {
             "reservation_page": reservation_page,
             'active_reservation': active_reservation,
-            'form': form,
             'old_reservations': old_reservations,
         }
     )
 
 
+@login_required
 def store_reservation(request, reservation_id):
     """
     Marks a reservation as complete and stores it.
@@ -92,6 +72,13 @@ def store_reservation(request, reservation_id):
             MyReservation,
             reservation_id=reservation_id)
 
+    if reservation.reserved_by != request.user:
+        messages.add_message(
+            request, messages.ERROR,
+            'You are not allowed to alter this reservation.'
+        )
+        return redirect('reservation')
+        
     if reservation.reservation_complete == 0:
         # Only complete if not already done
         if request.method == "POST":
@@ -112,8 +99,12 @@ def store_reservation(request, reservation_id):
                 )
 
                 return redirect('reservation')
+            
             else:
-                print(form.errors)
+                messages.add_message(
+                    request, messages.ERROR,
+                    'There was an error with the form submission.'
+                    )
         else:
             form = StoreReservationForm(instance=reservation)
 
@@ -126,6 +117,7 @@ def store_reservation(request, reservation_id):
     })
 
 
+@login_required
 def edit_reservation(request, reservation_id):
     """
     Allows the user to edit an existing reservation.
@@ -148,17 +140,31 @@ def edit_reservation(request, reservation_id):
     reservation = get_object_or_404(
         MyReservation, reservation_id=reservation_id)
 
+    if reservation.reserved_by != request.user:
+        messages.add_message(
+            request, messages.ERROR,
+            'You are not allowed to alter this reservation.'
+        )
+        return redirect('reservation')
+
     if request.method == 'POST':
         form = EditReservationForm(request.POST, instance=reservation)
+
         if form.is_valid():
             form.save()
 
             messages.add_message(
                 request, messages.SUCCESS,
-                'Your reservation is updated and stored'
+                'Your reservation is updated and stored!'
             )
 
             return redirect('reservation')
+
+        else:
+            messages.add_message(
+                messages.ERROR,
+                'There was an error with the form submission.'
+            )
     else:
         form = EditReservationForm(instance=reservation)
 
@@ -168,6 +174,7 @@ def edit_reservation(request, reservation_id):
     })
 
 
+@login_required
 def delete_reservation(request, reservation_id):
     """
     Deletes a reservation and updates the stock item statuses.
@@ -188,19 +195,29 @@ def delete_reservation(request, reservation_id):
     reservation = get_object_or_404(
         MyReservation, reservation_id=reservation_id)
 
-    # Ensure that the reservation is either "Started" (0) or "Reserved" (1)
-    if reservation.reservation_complete in [0, 1]:
-        # Update stock items to make them available again
-        for stock_item in reservation.stock_items.all():
-            stock_item.status = 0  # Mark stock item as available
-            stock_item.save()
+    if reservation.reserved_by == request.user:
+        # Ensure that the reservation is either "Started" (0) or "Reserved" (1)
+        if reservation.reservation_complete in [0, 1]:
+            # Update stock items to make them available again
+            for stock_item in reservation.stock_items.all():
+                stock_item.status = 0  # Mark stock item as available
+                stock_item.save()
 
-        messages.add_message(
-                request, messages.SUCCESS,
-                'Your reservation is deleted'
+            messages.add_message(
+                    request, messages.SUCCESS,
+                    'Your reservation is deleted'
+                )
+
+            reservation.delete()
+        else:
+            messages.add_message(
+                request, messages.ERROR,
+                'You cannot delete a completed reservation'
             )
-
-        # Delete the reservation
-        reservation.delete()
+    else:
+        messages.add_message(
+            request, messages.ERROR,
+            'you are not allowed to delete this reservation'
+        )
 
     return redirect('reservation')

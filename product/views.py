@@ -1,10 +1,10 @@
-from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from reservation.models import MyReservation
-from .models import Item, StockItem
+from .models import StockItem
 
 
 class StockItemList(generic.ListView):
@@ -78,26 +78,7 @@ def stock_item_detail(request, id):
     )
 
 
-def reservation_detail(request, id):
-    """
-    Displays the details of a reservation in
-    :model:`reservation.MyReservation`.
-
-    **Context**
-
-    ``reservation``
-        An instance of :model:`reservation.MyReservation`
-        corresponding to the provided ID.
-
-    **Template:**
-
-    :template:`reservation/reservation_detail.html`
-    """
-    reservation = get_object_or_404(MyReservation, id=id)
-    return render(request, 'reservation/reservation_detail.html', {
-        'reservation': reservation})
-
-
+@login_required
 def add_to_reservation(request, stock_item_id):
     """
     Adds a stock item to the current user's active reservation
