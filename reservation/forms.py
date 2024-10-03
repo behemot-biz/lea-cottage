@@ -55,8 +55,9 @@ class StoreReservationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         """
-        Initializes the form. If the `reserved_date` is not set, it populates the
-        field with today's date. The `reserved_note` field is optional by default.
+        Initializes the form. If the `reserved_date` is not set, it
+        populates the field with today's date. The `reserved_note`
+        field is optional by default.
         """
         if not self.instance.reserved_date:
             self.initial['reserved_date'] = timezone.now().date()

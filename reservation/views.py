@@ -78,7 +78,7 @@ def store_reservation(request, reservation_id):
             'You are not allowed to alter this reservation.'
         )
         return redirect('reservation')
-        
+
     if reservation.reservation_complete == 0:
         # Only complete if not already done
         if request.method == "POST":
@@ -99,7 +99,7 @@ def store_reservation(request, reservation_id):
                 )
 
                 return redirect('reservation')
-            
+
             else:
                 messages.add_message(
                     request, messages.ERROR,
