@@ -37,7 +37,7 @@ class Item(models.Model):
     ingredients = models.ManyToManyField(Ingredient)
 
     def __str__(self):
-        return self.name
+        return self.name, self.item_image.secure_url
 
     def get_ingredient_ids(self):
         """
