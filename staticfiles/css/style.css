@@ -78,15 +78,9 @@ body, p {
     background-color: #6b705c;
     border-color: #6b705c;
 }
-  
 
-/* Change text color in success alert */
-.alert.bg-success.success {
-    color: white;  /* Changes text color to white */
-}
-
-/* Change close button (X) to white */
-.alert.bg-success.success .btn-close {
+/* Change close button (X) to white .bg-success.success*/
+.alert .btn-close {
     background-color: white; 
     filter: invert(1);  
 }
@@ -145,7 +139,7 @@ body, p {
 @media (max-width: 576px) {
     .hero {
     min-height: 400px;
-    background: url(../images/hero_img.webp) no-repeat left bottom / cover, linear-gradient(#6c705c80, #00000080);
+    background: url(../images/hero_img_small.webp) no-repeat left bottom / cover, linear-gradient(#6c705c80, #00000080);
     background-blend-mode: overlay;  
     }
 }
