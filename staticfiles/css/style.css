@@ -1,11 +1,10 @@
+body, p {
+    font-family: 'Poppins', sans-serif;
+}
 
 /* Apply Lora to headings */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lora', serif;
-}
-
-body, p {
-    font-family: 'Poppins', sans-serif;
 }
 
 .navbar-brand, .btn {
@@ -116,13 +115,21 @@ body, p {
     padding: .5rem 0rem;
     background-color: transparent;
     border-top: none;
-    max-width: max-content;
 }
 
 .card-img-top {
     height: 180px;
     object-fit: cover;
     width: 100%;
+}
+.card-fixed-width-img {
+    width: 300px;
+    height: auto;
+}
+.fill-image {
+    width: 100%;  /* Make sure the image fills the width of its container */
+    height: 100%; /* Ensure the image fills the height of its container */
+    object-fit: cover;  /* Ensures the image covers the area, cropping if necessary */
 }
 
 .stockitem-card {
@@ -149,6 +156,11 @@ body, p {
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
 }
+
+.detail-card-custom-heading, .reserv-card-custom-heading {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
   
 /* Custom styles for very small screens */
 @media (max-width: 400px) {
@@ -162,6 +174,14 @@ body, p {
     background: url(../images/hero_img_small.webp) no-repeat left bottom / cover, linear-gradient(#6c705c80, #00000080);
     background-blend-mode: overlay;  
     }
+}
+@media (max-width: 768px) {
+    .btn {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+      }
 }
 
 @media (min-width: 768px) {
