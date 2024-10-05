@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.urls import reverse
+from django.db.models import Count, Min
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from reservation.models import MyReservation
@@ -17,65 +18,30 @@ class StockItemList(generic.ListView):
         A QuerySet of all instances of :model:`product.StockItem`
         with status=0.
     ``stock_items_with_ingredients``
-        A list of stock items along with their associated ingredients.
-
-    **Template:**
-
-    :template:`product/index.html`
+        A list of unique stock items along with their available count.
     """
-    queryset = StockItem.objects.all(
-        ).filter(status=0).order_by("-created_on")
+    queryset = StockItem.objects.filter(status=0).order_by("-created_on")
     template_name = "product/index.html"
     context_object_name = "stock_items"
 
     def get_context_data(self, **kwargs):
         """
-        Adds stock items and their ingredients to the context.
-
-        **Context**
-
-        ``stock_items_with_ingredients``
-            A list of stock items along with their related ingredients.
+        Adds unique stock items and their available count to the context.
         """
         context = super().get_context_data(**kwargs)
 
-        # Add stock items and their associated ingredients to the context
-        stock_items_with_ingredients = []
-        for stock_item in context['stock_items']:
-            # Fetch related ingredients from the linked Item
-            ingredients = stock_item.item.ingredients.all()
-            stock_items_with_ingredients.append({
-                'stock_item': stock_item,
-                'ingredients': ingredients,
-            })
+        # Group by item, preserve method, and quantity to avoid duplicates
+        stock_items = StockItem.objects.filter(status=0).values(
+            'item__name', 'item__item_image',
+            'preserve__method', 'quantity__unit'
+        ).annotate(
+            available_count=Count('id'),
+            lowest_id=Min('id'),
+            item_quantity=Min('item_quantity')
+        ).order_by('item__name', 'preserve__method')
 
-        context['stock_items_with_ingredients'] = stock_items_with_ingredients
+        context['stock_items'] = stock_items
         return context
-
-
-def stock_item_detail(request, id):
-    """
-    Displays the details of a single stock item in :model:`product.StockItem`.
-
-    **Context**
-
-    ``stock_item``
-        An instance of :model:`product.StockItem` corresponding
-        to the provided ID.
-
-    **Template:**
-
-    :template:`product/stock_item_detail.html`
-    """
-    stock_item = get_object_or_404(StockItem, id=id)
-
-    return render(
-        request,
-        "product/stock_item_detail.html",
-        {
-            "stock_item": stock_item,
-        },
-    )
 
 
 @login_required
@@ -83,25 +49,6 @@ def add_to_reservation(request, stock_item_id):
     """
     Adds a stock item to the current user's active reservation
     in :model:`reservation.MyReservation`.
-
-    If the user doesn't have an active reservation, a new one is created.
-
-    **Context**
-
-    ``stock_item``
-        An instance of :model:`product.StockItem` corresponding
-        to the provided stock item ID.
-    ``reservation``
-        The current user's active reservation.
-
-    **Messages:**
-
-    A success message is added upon successfully adding the stock
-    item to the reservation.
-
-    **Redirects to:**
-
-    :view:`reservation` - The reservation page.
     """
     stock_item = get_object_or_404(StockItem, id=stock_item_id)
 
@@ -111,7 +58,6 @@ def add_to_reservation(request, stock_item_id):
         reservation_complete=0,  # Status is "Started"
     )
 
-    # Ensure the reservation is saved if it was just created
     if created:
         reservation.save()
 
@@ -123,6 +69,19 @@ def add_to_reservation(request, stock_item_id):
     messages.add_message(
         request, messages.SUCCESS,
         f'{stock_item.item.name} added to your reservation'
-        )
+    )
 
     return redirect(reverse('reservation'))
+
+
+def stock_item_detail(request, id):
+    """
+    Displays the details of a single stock item.
+    """
+    stock_item = get_object_or_404(StockItem, id=id)
+
+    return render(
+        request,
+        "product/stock_item_detail.html",
+        {"stock_item": stock_item},
+    )
