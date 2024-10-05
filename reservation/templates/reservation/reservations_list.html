@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load custom_filters %}
 {% load static %}
 
 {% block content %}
@@ -17,6 +16,7 @@
     </div>
 </div> 
 
+<!-- Active reservations -->
 <div class="container">
     <div class="row reserv-collection-width  mx-auto pt-3">
         <h2>Reservations</h2>
@@ -40,7 +40,7 @@
                             {% for item in reservation.stock_items.all %}
                               <div class="d-flex align-items-center mb-2">
                                 <!-- Thumbnail image -->
-                                <img src="{{ item.item.item_image.url|replace:'http://,https://' }}" class="thumbnail-img me-2" alt="{{ item.item.name }}">
+                                <img src="{{ item.item.item_image.url }}" class="thumbnail-img me-2" alt="{{ item.item.name }}">
                                 
                                 <!-- Item name and quantity -->
                                 <div>
@@ -88,31 +88,48 @@
 
     </div>
 </div>
-
-<div class="container-fluid bg-neutral">
-    <div class="row reserv-collection-width  mx-auto">
+<!-- Closed reservations - Only visible if any-->
+{% if old_reservations %}
+<div class="container-fluid bg-primary-lea">
+    <div class="row reserv-collection-width mx-auto px-5 pb-5 d-flex align-items-stretch">
         <h2 class="text-white py-3">Reservations Collected</h2>
-        <div class="col-lg-6 col-sm-12 mb-4">
-                
-				<div class="card h-100 light-bg">
-                {% for reservation in old_reservations %}
-                <div>
-                    <p>Reservation ID: {{ reservation.reservation_id }}</p>
-                    <p>Date: {{ reservation.reserved_date }}</p>
-                    <p>Note: {{ reservation.reserved_note }}</p>
-                    <h4>Items:</h4>
-                    <ul>
-                        {% for stock_item in reservation.stock_items.all %}
-                        <li>{{ stock_item.item.name }} - content {{ stock_item.item_quantity }} {{ stock_item.quantity }}</li>
+        
+        <!-- Loop through each reservation -->
+        {% for reservation in old_reservations %}
+        <div class="{% if old_reservations|length == 1 %}col-12{% else %}col-md-6 col-sm-12{% endif %} mb-4">
+            <div class="card reserve-card h-100 light-bg d-flex flex-column">
+                <div class="card-body flex-grow-1">
+                    <div class="card-title reserv-card-custom-heading">Reservation ID: {{ reservation.reservation_id }}</div>
+                    <p class="card-text">
+                        <span class="{% if not reservation.reserved_date %}d-none{% endif %} d-block">
+                        <strong>Pickup date:</strong> {{ reservation.reserved_date|default:"" }}
+                        <span>
+                        <span class="{% if not reservation.reserved_note %}d-none{% endif %} d-block">
+                            <strong>Note:</strong> {{ reservation.reserved_note|default:"" }}
+                        </span>
+                    </p>   
+                    <div class="items">
+                        {% for item in reservation.stock_items.all %}
+                        <div class="d-flex align-items-center mb-2">
+                            <!-- Thumbnail image -->
+                            <img src="{{ item.item.item_image.url }}" class="thumbnail-img me-2" alt="{{ item.item.name }}">
+                            
+                            <!-- Item name and quantity -->
+                            <div>
+                                <p class="mb-0">{{ item.item.name }}, {{ item.preserve.method }}</p>
+                                <small>Quantity: {{ item.item_quantity }} {{ item.quantity.unit }}</small>
+                            </div>
+                        </div>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </div>
-                <hr>
-                {% endfor %}
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
+{% endif %}
+
 
 
 <!-- Reserve Item Modal -->
@@ -153,8 +170,8 @@
     </div>
 </div>
 
-
 {% endblock content %}
+
 {% block extras %}
 <script src="{% static 'js/my_modal.js' %}"></script>
 {% endblock %}

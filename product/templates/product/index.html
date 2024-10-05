@@ -15,7 +15,8 @@
             </article>
         </div>
     </div>
-
+</div>
+<div class="container-fluid">
     <!-- Section for Fresh items -->
     <h2 class="text-center my-4">Fresh from the Oven</h2>
     <div class="row stockitem-collection-width mx-auto pt-3">
@@ -28,22 +29,23 @@
                     <div class="card-body">
                         <div class="card-title card-custom-heading">{{ entry.item__name }}</div>
                         <p class="card-text">{{ entry.preserve__method }} ({{ entry.item_quantity }} {{ entry.quantity__unit }})</p>
-                        <p class="card-text">{{ entry.available_count }} available</p>
+                        <p class="card-text">{{ entry.available_count }} in stock</p>
                     </div>
                     <div class="card-footer text-center p-0 pb-auto">
                         {% if user.is_authenticated %}
-                        <a href="{% url 'add_to_reservation' entry.lowest_id %}" class="btn btn-primary mb-3">Reserve item</a>
+                        <a href="{% url 'add_to_reservation' entry.lowest_id %}" class="btn btn-primary stock mb-3">Reserve item</a>
                         {% endif %}
-                        <a href="{% url 'stock_item_detail' entry.lowest_id %}" class="btn btn-secondary mb-3">View item</a>
+                        <a href="{% url 'stock_item_detail' entry.lowest_id %}" class="btn btn-secondary stock mb-3">View item</a>
                     </div>
                 </div>
             </div>
             {% endif %}
         {% endfor %}
     </div>
-
+</div>
+<div class="container-fluid bg-primary-lea py-2">
     <!-- Section for Frozen items -->
-    <h2 class="text-center my-4">In the Freezer</h2>
+    <h2 class="text-center text-white py-3">In the Freezer</h2>
     <div class="row stockitem-collection-width mx-auto pt-3">
         {% for entry in stock_items %}
             {% if entry.preserve__method == "Frozen" %}
@@ -54,20 +56,21 @@
                     <div class="card-body">
                         <div class="card-title card-custom-heading">{{ entry.item__name }}</div>
                         <p class="card-text">{{ entry.preserve__method }} ({{ entry.item_quantity }} {{ entry.quantity__unit }})</p>
-                        <p class="card-text">{{ entry.available_count }} available</p>
+                        <p class="card-text">{{ entry.available_count }} in stock</p>
                     </div>
                     <div class="card-footer text-center p-0 pb-auto">
                         {% if user.is_authenticated %}
-                        <a href="{% url 'add_to_reservation' entry.lowest_id %}" class="btn btn-primary mb-3">Reserve item</a>
+                        <a href="{% url 'add_to_reservation' entry.lowest_id %}" class="btn btn-primary stock mb-3">Reserve item</a>
                         {% endif %}
-                        <a href="{% url 'stock_item_detail' entry.lowest_id %}" class="btn btn-secondary mb-3">View item</a>
+                        <a href="{% url 'stock_item_detail' entry.lowest_id %}" class="btn btn-secondary stock mb-3">View item</a>
                     </div>
                 </div>
             </div>
             {% endif %}
         {% endfor %}
     </div>
-
+</div>
+<div class="container-fluid">
     <!-- Section for Canned/Pickled items -->
     <h2 class="text-center my-4">On the Shelves: Canned and Pickled</h2>
     <div class="row stockitem-collection-width mx-auto pt-3">
@@ -80,13 +83,13 @@
                     <div class="card-body">
                         <div class="card-title card-custom-heading">{{ entry.item__name }}</div>
                         <p class="card-text">{{ entry.preserve__method }} ({{ entry.item_quantity }} {{ entry.quantity__unit }})</p>
-                        <p class="card-text">{{ entry.available_count }} available</p>
+                        <p class="card-text">{{ entry.available_count }} in stock</p>
                     </div>
                     <div class="card-footer text-center p-0 pb-auto">
                         {% if user.is_authenticated %}
-                        <a href="{% url 'add_to_reservation' entry.lowest_id %}" class="btn btn-primary mb-3">Reserve item</a>
+                        <a href="{% url 'add_to_reservation' entry.lowest_id %}" class="btn btn-primary stock mb-3">Reserve item</a>
                         {% endif %}
-                        <a href="{% url 'stock_item_detail' entry.lowest_id %}" class="btn btn-secondary mb-3">View item</a>
+                        <a href="{% url 'stock_item_detail' entry.lowest_id %}" class="btn btn-secondary stock mb-3">View item</a>
                     </div>
                 </div>
             </div>
