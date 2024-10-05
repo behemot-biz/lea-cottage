@@ -15,11 +15,17 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Lora', serif;
     font-size: 1.4rem;
     font-weight: 700;
-    color: #6b705c;
+    color: #090c09;
 }
+
 .hero {
     height: 100%; 
     background: url(../images/hero_img.webp) no-repeat left bottom;
+}
+
+.hero-reserve {
+    height: 100%; 
+    background: url(https://res.cloudinary.com/dg9lrlidj/image/upload/v1728151279/hero_img_reserve_v0c5qj.webp) no-repeat left bottom;
 }
 
 .modal-btn-align {
@@ -42,21 +48,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Primary colors */
-.bg-primary {
-    background-color: #f5e3c3; 
+.bg-primary-lea {
+    background-color: #801818ff; 
 }
   
-.text-primary {
-    color: #f5e3c3;
+.text-primary-lea {
+    color: #801818ff;
 }
   
 /* Accent colors */
 .bg-accent {
-    background-color: #f4a261;
+    background-color: #f1dfb8;
 }
 
 .text-accent {
-    color: #f4a261;
+    color: #f1dfb8;
 }
 
 /* Neutral colors */
@@ -67,7 +73,23 @@ h1, h2, h3, h4, h5, h6 {
 .text-neutral {
     color: #6b705c;
 }
+
+.bg-light-lea {
+    background-color: #fdfffc; 
+}
+
+.text-light-lea {
+    color: #fdfffc;
+}
+
+.bg-dark-lea {
+    background-color: #090c09; 
+}
   
+.text-dark-lea {
+    color: #090c09;
+}
+
  /* Customize buttons */
  .btn-primary {
     background-color: #801818ff;
@@ -88,15 +110,12 @@ h1, h2, h3, h4, h5, h6 {
 .btn-secondary:active, .btn-secondary:focus, .btn-secondary:hover {
     color: #6b705c;
     background-color: #ffffff;
-    border-color: #6b705c;
 }
-
 
 /* Change close button (X) to white for success alerts */
 .alert .btn-close {
     background-color: white; 
     filter: invert(1);  
-
 }
 
 .card {
@@ -127,9 +146,9 @@ h1, h2, h3, h4, h5, h6 {
     height: auto;
 }
 .fill-image {
-    width: 100%;  /* Make sure the image fills the width of its container */
-    height: 100%; /* Ensure the image fills the height of its container */
-    object-fit: cover;  /* Ensures the image covers the area, cropping if necessary */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .stockitem-card {
@@ -152,6 +171,7 @@ h1, h2, h3, h4, h5, h6 {
     background-repeat: no-repeat;
     border-radius: 5px;
 }
+
 .card-custom-heading {
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
@@ -162,6 +182,30 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.75rem;
 }
   
+.btn-signup,
+.btn-edit {
+    background-color: #6b705c;
+    color: #fff;
+}
+
+.btn-signup:hover,
+.btn-signup:active {
+    color: #6b705c;
+    background-color: #ffffff;
+    border-color: #6b705c;
+}
+
+.link {
+    color: #6b705c;
+    text-decoration: none;
+}
+
+.link:hover,
+.link:active {
+    color: #6b705c;
+    text-decoration: underline;
+}
+
 /* Custom styles for very small screens */
 @media (max-width: 400px) {
     .stockitem-card {
@@ -174,9 +218,14 @@ h1, h2, h3, h4, h5, h6 {
     background: url(../images/hero_img_small.webp) no-repeat left bottom / cover, linear-gradient(#6c705c80, #00000080);
     background-blend-mode: overlay;  
     }
+    .hero-reserve {
+    min-height: 400px;
+    background: url(https://res.cloudinary.com/dg9lrlidj/image/upload/v1728151279/hero_img_reserve_small_nwxwhn.webp) no-repeat left bottom / cover, linear-gradient(#f1dfb880, #00000080);
+    background-blend-mode: overlay;  
+    }
 }
 @media (max-width: 768px) {
-    .btn {
+    .stock.btn {
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -194,6 +243,7 @@ h1, h2, h3, h4, h5, h6 {
     .reserv-collection-width {
         max-width: 1024px;
     }
+
     .stockitem-collection-width  {
         max-width: 1200px;
     }
