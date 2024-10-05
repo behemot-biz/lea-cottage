@@ -71,7 +71,6 @@ h1, h2, h3, h4, h5, h6 {
  /* Customize buttons */
  .btn-primary {
     background-color: #801818ff;
-    border-color: #801818ff;
 }
 
 .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
@@ -82,13 +81,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-secondary {
     background-color: #6b705c;
-    border-color: #6b705c;
+
 }
 
 .btn-secondary:active, .btn-secondary:focus, .btn-secondary:hover {
     color: #6b705c;
     background-color: #ffffff;
-    border-color: #6b705c;
+
 }
 
 
@@ -162,6 +161,30 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.75rem;
 }
   
+.btn-signup,
+.btn-edit {
+    background-color: #6b705c;
+    color: #fff;
+}
+
+.btn-signup:hover,
+.btn-signup:active {
+    color: #6b705c;
+    background-color: #ffffff;
+    border-color: #6b705c;
+}
+
+.link {
+    color: #6b705c;
+    text-decoration: none;
+}
+
+.link:hover,
+.link:active {
+    color: #6b705c;
+    text-decoration: underline;
+}
+
 /* Custom styles for very small screens */
 @media (max-width: 400px) {
     .stockitem-card {
