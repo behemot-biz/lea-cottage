@@ -29,12 +29,17 @@
                	 	<div class="card-body">
                     	<div class="card-title reserv-card-custom-heading">Reservation ID: {{ reservation.reservation_id }}</div>
                     	<p class="card-text">
-                        	<span class="{% if not reservation.reserved_date %}d-none{% endif %} d-block">
-                            <strong>Pickup date:</strong> {{ reservation.reserved_date|default:"" }}
-                        	<span>
-                        	<span class="{% if not reservation.reserved_note %}d-none{% endif %} d-block">
+                            {% if reservation.reserved_date %}
+                            <span class="d-block">
+                                <strong>Pickup date:</strong> {{ reservation.reserved_date|default:"" }}
+                            </span>
+                            {% endif %}
+                            
+                            {% if reservation.reserved_note %}
+                            <span class="d-block">
                                 <strong>Note:</strong> {{ reservation.reserved_note|default:"" }}
-                        	</span>
+                            </span>
+                            {% endif %}
                     	</p>   
                         <div class="items">
                             {% for item in reservation.stock_items.all %}
@@ -101,12 +106,17 @@
                 <div class="card-body flex-grow-1">
                     <div class="card-title reserv-card-custom-heading">Reservation ID: {{ reservation.reservation_id }}</div>
                     <p class="card-text">
-                        <span class="{% if not reservation.reserved_date %}d-none{% endif %} d-block">
-                        <strong>Pickup date:</strong> {{ reservation.reserved_date|default:"" }}
-                        <span>
-                        <span class="{% if not reservation.reserved_note %}d-none{% endif %} d-block">
+                        {% if reservation.reserved_date %}
+                        <span class="d-block">
+                            <strong>Pickup date:</strong> {{ reservation.reserved_date|default:"" }}
+                        </span>
+                        {% endif %}
+                        
+                        {% if reservation.reserved_note %}
+                        <span class="d-block">
                             <strong>Note:</strong> {{ reservation.reserved_note|default:"" }}
                         </span>
+                        {% endif %}
                     </p>   
                     <div class="items">
                         {% for item in reservation.stock_items.all %}
