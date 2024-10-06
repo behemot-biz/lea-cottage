@@ -53,6 +53,35 @@ The website’s skeleton translates the defined structure into practical, naviga
 
 The visual design focuses on a calm, welcoming atmosphere, reflecting the cottage-style bakery. Soft colors, clean typography, and minimalistic visuals aim to create a sense of warmth and trust. Visual hierarchy is maintained through simple layouts, with clear navigation and call-to-action elements. Icons and buttons are used sparingly but effectively, ensuring that users can navigate and interact with the site without confusion. The use of whitespace and large, readable fonts ensures that the content feels approachable and not overwhelming, whether viewed on a large desktop screen or a small mobile device.
 
+Here is a section modeled after your provided example:
+
+---
+
+## Design Decisions
+
+### Fonts
+For the **Lea Cottage Home Bakery** site, I selected the following Google Fonts:
+- **Lora**: This typeface is used for headings, delivering a balanced, elegant feel that complements the cottage's heritage and handcrafted charm.
+- **Poppins**: Used for the body text, this font ensures clarity and readability while maintaining a modern, clean look.
+
+### Colours
+The color palette was chosen to reflect the rustic, homely, and natural feel of the bakery. The aim was to create a welcoming atmosphere while ensuring text legibility and visual balance.
+
+### Colour Scheme
+
+![Lea Cottage Colors](docs/lea-cottage-colors.png)
+
+#### Colour Use
+- **Falu Red #801818**: Used for buttons and important action elements such as reservation buttons, to evoke warmth and a cozy, rustic feel.
+- **Black #020402**: Primarily used for text, ensuring strong contrast for readability.
+- **Reseda Green #6B705C**: A calming and earthy tone, used for background accents and some secondary buttons.
+- **Baby Powder #FDFFFC**: A soft off-white, used as the main background color for the site to keep the design clean and light.
+- **Wheat #F5E0B7**: A subtle color, used to add warmth and depth to sections of the site, particularly around imagery and footer areas.
+
+### Imagery
+Images of freshly baked goods and homegrown ingredients are featured throughout the site to emphasize the handmade and local essence of the bakery. The imagery highlights the cottage’s connection to nature and the personal care put into every product. All pictures are my personal ones.
+
+
 ## Database Design
 
 ### Database Model
@@ -91,107 +120,387 @@ The CRUD (Create, Read, Update, Delete) principle is foundational to the design 
 
 
 
+## Features
+
+### Header, Navigation, and Footer - Elements Available on All Pages
+The responsive navigation bar at the top of the page includes links to the home, reservations, and login/logout pages. The **Lea Cottage** logo is linked to the home (start page). The navigation bar has the same content and functionality on all pages. The login status is reflected in the navigation menu, where users can see "My reservations" and "Logout" if they are signed in.
+
+The footer at the bottom of the page contains links to social media platforms (Facebook, Instagram, and YouTube), which open in new tabs.
+
+### Home / Start Page
+The start page begins with a hero section displaying the bakery's branding and a brief introduction to Lea Cottage Home Bakery. Below the hero, the stock items are categorized into three sections: **Fresh from the Oven**, **In the Freezer**, and **On the Shelves: Canned and Pickled**. The categories help the user to navigate through the available products easily.
+
+<details>
+<summary>Home/start page - user not logged in</summary>
+
+![Home/start page - user not logged in](docs/home_user_not_logged_in.png)
+</details>
+
+<details>
+<summary>Home/start page - user logged in</summary>
+
+![Home/start page - user logged in](docs/home_user_logged_in.png)
+</details>
+
+### View an Item
+The user can view the details of an item, which includes the item's image, quantity, preserve method, and ingredients. If the user is not logged in, they will be prompted to log in to reserve the item.
+
+<details>
+<summary>View item - user not logged in</summary>
+
+![View item - user not logged in](docs/view_an_item_not_logged_in.png)
+</details>
+
+<details>
+<summary>View item - user logged in</summary>
+
+![View item - user logged in](docs/view_an_item_logged_in.png)
+</details>
+
+### Reservations Page
+Users can access the reservations page, which displays their active and collected reservations. If a user is not logged in, they will be redirected to the login page. Logged-in users can view their active reservations, update or delete them, and see their past collected reservations.
+
+<details>
+<summary>Reservations page - no active reservations</summary>
+
+![No active reservations](docs/no_reservation.png)
+</details>
+
+<details>
+<summary>Reservations page - active reservation stored</summary>
+
+![Reservation stored](docs/store_reservation.png)
+</details>
+
+<details>
+<summary>Reservations page - user with past reservations</summary>
+
+![No active reservations, two collected](docs/no_active_reservation_two_collected_reservations.png)
+</details>
+
+### Reservation Modals (Edit and Delete)
+Logged-in users can edit or delete their reservations using modals that confirm their actions.
+
+<details>
+<summary>Edit reservation modal</summary>
+
+![Edit reservation modal](docs/edit_reservation_.png)
+</details>
+
+<details>
+<summary>Confirm edit reservation</summary>
+
+![Confirm edit reservation](docs/confirm_edit_reservation.png)
+</details>
+
+<details>
+<summary>Delete reservation modal</summary>
+
+![Delete reservation modal](docs/delete_reservation.png)
+</details>
+
+<details>
+<summary>Confirm delete reservation</summary>
+
+![Confirm delete reservation](docs/confirm_delete_reservation.png)
+</details>
+
+### Unauthorized Actions
+If a user attempts to edit or delete another user's reservation, they will see an error message. The system protects against unauthorized actions, ensuring that users can only modify their own reservations.
+
+<details>
+<summary>Unauthorized to edit reservation</summary>
+
+![Unauthorized to edit reservation](docs/unauthorized-edit.png)
+</details>
+
+<details>
+<summary>Unauthorized to store reservation</summary>
+
+![Unauthorized to store reservation](docs/unauthorized_store.png)
+</details>
+
+<details>
+<summary>Unauthorized to delete reservation</summary>
+
+![Unauthorized to delete reservation](docs/unauthorized_delete.png)
+</details>
+
+## Testing
+
+### Manual Testing Results
+
+## Navigation
+
+All navigation links, including the **Lea Cottage** logo, are found in the navbar at the top of the page. The navbar adjusts for smaller screens with a burger drop-down menu.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Home Link Icon** | While not on homepage, click the **Lea Cottage** logo. | Logo shrinks and expands. User is redirected back to the homepage. | Pass |
+| **"Home" Link** | While not on homepage, click "Home". | User is redirected back to the homepage. | Pass |
+| **"Login" Link** | While not authenticated, click "Login". | User is directed to the Login form. | Pass |
+| **"Register" Link** | While not authenticated, click "Register". | User is directed to the Sign Up form. | Pass |
+| **"My Reservations" Link** | While authenticated, click "My Reservations". | Renders the user's reservation page. | Pass |
+| **"Logout" Link** | While authenticated, click "Logout". | User is directed to the page with a Sign Out button. | Pass |
+
+---
+
+## Viewing Items
+
+The items are available on the homepage, organized into categories like "Fresh from the Oven," "In the Freezer," and "On the Shelves: Canned and Pickled."
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **View item - logged out** | While logged out, click on any item’s "View Item" button. | The item’s detail page is displayed with an option to log in to reserve the item. | Pass |
+| **View item - logged in** | While logged in, click on any item’s "View Item" button. | The item’s detail page is displayed with an option to reserve the item. | Pass |
+
+---
+
+## Reserve Item
+
+Reservation functionality is available only for authenticated users.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Reserve item - logged out** | While logged out, click "Reserve Item" on any item detail page. | User is redirected to the login page, and a prompt is shown to log in to reserve the item. | Pass |
+| **Reserve item - logged in** | While logged in, click "Reserve Item" on any item detail page. | Item is added to the user's reservations, and a success message is displayed. | Pass |
+| **Reserve already reserved item** | While logged in, try to reserve an item that is already reserved. | The item cannot be reserved, and an error message is shown. | Pass |
+
+---
+
+## CRUD - Reservations
+
+The full CRUD (Create, Read, Update, Delete) functionality is only available to authenticated users.
+
+### Create
+
+Users can create a reservation by adding an item to their reservations list.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Reserve item** | While logged in, click "Reserve Item" on an item detail page. | Item is added to the user's reservation, and a success message is shown. | Pass |
+| **Add additional items to reservation** | After reserving one item, click "Add Items" on the reservation page. | Users can add more items to the same reservation. | Pass |
+| **Complete reservation** | After adding items, click "Complete Reservation". | The reservation is finalized, and a confirmation message is shown. | Pass |
+
+### Read
+
+Users can view their active and collected reservations.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **View reservation - logged in** | While logged in, navigate to "My Reservations". | The user's active reservations are displayed, including the option to edit or delete. | Pass |
+| **View past reservations** | While logged in, scroll to the "Reservations Collected" section. | The user's completed reservations are displayed. | Pass |
+
+### Update
+
+Users can update the details of their reservations, such as the pickup date or the reservation note.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Edit reservation** | On the reservation page, click "Edit" next to a reservation. | A modal appears with fields to update the reservation note or pickup date. | Pass |
+| **Save changes** | After editing, click "Save Changes". | The changes are saved, and a success message is shown. | Pass |
+
+### Delete
+
+Users can delete reservations.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Delete reservation** | On the reservation page, click "Delete" next to a reservation. | A confirmation modal appears. After confirming, the reservation is deleted, and a success message is shown. | Pass |
+| **Unauthorized deletion** | Try to delete another user's reservation. | Deletion is not allowed, and an error message is displayed. | Pass |
+
+---
+
+## Sign Up
+
+Unauthenticated users can create a new account to make reservations.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Sign Up form** | Go to the "Register" page via the navigation bar. | The registration form is displayed with fields for username, email, and password. | Pass |
+| **Submit** | Fill in the registration form and click "Sign Up". | A success message is shown, and the user is redirected to the homepage. | Pass |
+| **Incomplete form** | Submit the form without filling in all required fields. | The form is reloaded with an error message, asking the user to complete the fields. | Pass |
+
+---
+
+## Login
+
+Users can log into an existing account.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Login form** | Go to the "Login" page via the navigation bar. | The login form is displayed with fields for username and password. | Pass |
+| **Submit** | Fill in the login form and click "Sign In". | A success message is shown, and the user is redirected to the homepage. | Pass |
+| **Incorrect credentials** | Fill in the login form with incorrect credentials. | An error message is shown, prompting the user to try again. | Pass |
+
+---
+
+## Logout
+
+Authenticated users can log out of their accounts.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Logout form** | While logged in, click the "Logout" link in the navigation bar. | The user is directed to the logout confirmation page. | Pass |
+| **Sign Out** | On the logout page, click "Sign Out". | A success message is shown, and the user is redirected to the homepage as a logged-out user. | Pass |
+
+---
+
+## Social Links
+
+Links to social media sites are located in the footer, accessible on all pages.
+
+| Feature | Action                             | Expected Result                 | Status |
+| ----- | ---------------------------------| ------------------------------| -----|
+| **Facebook Icon** | Click on the Facebook icon in the footer. | A new tab opens with the Lea Cottage Home Bakery's Facebook page. | Pass |
+| **Instagram Icon** | Click on the Instagram icon in the footer. | A new tab opens with the Lea Cottage Home Bakery's Instagram profile. | Pass |
+| **YouTube Icon** | Click on the YouTube icon in the footer. | A new tab opens with the Lea Cottage Home Bakery's YouTube channel. | Pass |
+
+The test cases were carried out on following devices/browsers: 
+
+MacBook Pro 15-inch, 2017
+- Safari Version 17.4.1 
+- Firefox 124.0.2 (64-bit)
+- Chrome Version 123.0.6312.124 (Official Build) (x86_64)
+
+Ipad pro (12,9 inch IOS 16.7.7)
+- Safari
+- Firefox
+- Chrome 
+
+Iphone SE
+- Safari
+- Chrome 
+
+Iphone 8 plus (IOS 16.7.7)
+- Safari
 
 
-# Lea Cottage Home Bakery Project - Automated Testing
+### Performance test - Lighthouse
 
-This project includes automated testing for the **Lea Cottage Home Bakery** web application. The tests cover models, forms, and views to ensure everything functions as expected.
+#### Desktop
+
+<details>
+<summary>Result start/home page (desktop)</summary>
+
+![Start page - desktop](docs/startpage_desktop.png)
+</details>
+
+<details>
+<summary>Result reservation page (desktop)</summary>
+
+![Reservation page - desktop](docs/reservation_desktop.png)
+</details>
+
+<details>
+<summary>Result stock item detail page (desktop)</summary>
+
+![Stock Item Detail - desktop](docs/stockitem_detail_desktop.png)
+</details>
+
+#### Mobile
+
+<details>
+<summary>Result start/home page (mobile)</summary>
+
+![Start page - mobile](docs/startpage_mobile.png)
+</details>
+
+<details>
+<summary>Result reservation page (mobile)</summary>
+
+![Reservation page - mobile](docs/reservation_mobile.png)
+</details>
+
+<details>
+<summary>Result stock item detail page (mobile)</summary>
+
+![Stock Item Detail - mobile](docs/stockitem_detail_mobile.png)
+</details>
 
 
-## Requirements
 
-Ensure you have the following installed to run the tests:
+### Code validation
+#### Javascript
+Passed without errors
 
-1. **Python python-3.9.20.x**
-2. **Django 4.2** 
-3. **sqlite3** 
-4. **Virtual environment (optional)**
+<details>
+<summary>View JavaScript result (image of)</summary>
 
-## Setup
+![javascripts](docs/my_modal_jshint.png)
+![javascripts](docs/set_bg_image_jshint.png)
+</details>
 
-### 1. Clone the Repository
-If you haven't already cloned the project, use the following command:
 
-```bash
-git clone <rhttps://github.com/behemot-biz/lea-cottage.gitl>
-cd <repository-folder>
-```
+#### HTML
+Passed without errors
 
-### 2. Create a Virtual Environment (Optional)
-If you wish to run the project in an isolated environment, create and activate a virtual environment:
+<details>
+<summary>View html validation of home/start page (image of)</summary>
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
+![Home/start](docs/html_valid_start_page.png)
+![Product Detail](docs/html_valid_stockitem_detail.png)
+![Product Detail](docs/html_valid_reservate.png)
+</details>
 
-### 3. Install Dependencies
-Install the necessary packages from `requirements.txt`:
+#### CSS
+Passed without errors
 
-```bash
-pip install -r requirements.txt
-```
+<details>
+<summary>View CSS validation (image of)</summary>
 
-### 4. Set Up Database
-Ensure you have set up your database configurations. Make sure the test database configurations are correct in your `settings.py` or in your environment variables.
+![CSS](docs/css_valid.png)
+</details>
 
-### 5. Migrate the Database
-Apply migrations to set up your test database:
+#### Python
+All files passed the CI Python Linter without errors
 
-```bash
-python manage.py migrate
-```
+<details>
+<summary>View Python validation results</summary>
 
-## Running Tests
+![reservation views.py](docs/reservation_views.png.png)
+</details>
 
-### Run All Tests
+Project: settings.py, urls.py
+Product app: admin.py, forms.py, models.py, urls.py, views.py
+Reservation: admin.py, forms.py, models.py, tests_forms.py, tests_models.py, tests_views.py, urls.py, views.py
 
-You can run all tests using Django's `test` command:
 
-```bash
-python manage.py test
-```
+## Automated Testing
 
-This will automatically detect and run tests from `tests_models.py`, `tests_forms.py`, and `tests_views.py`.
+This project includes automated testing for the **Lea Cottage Home Bakery** web application. The tests cover models, forms, and views for reservation app to ensure everything functions as expected.
 
-### Run Specific Test Modules
-
-You can also run specific test modules:
-
-```bash
-python manage.py test reservation.tests_models
-python manage.py test reservation.tests_forms
-python manage.py test reservation.tests_views
-```
-
-## Test Structure
-
-### `tests_models.py`
+#### `tests_models.py`
 This file contains tests related to the models in your project. These tests ensure that:
 - Reservations are created correctly.
 - The relationships between models, such as `StockItem` and `MyReservation`, work as expected.
 - Status updates (like marking reservations as complete) function properly.
 
-### `tests_forms.py`
+#### `tests_forms.py`
 This file contains tests for the forms in the project. It ensures that:
 - Forms are validated correctly.
 - Required fields are present.
 - Validation rules (like valid dates) are enforced.
 
-### `tests_views.py`
+#### `tests_views.py`
 This file tests the views in your project to make sure they return the correct responses. It includes tests such as:
 - Successful reservation submissions.
 - Adding items to reservations.
 - Handling invalid form submissions.
 - Ensuring appropriate redirects.
 
-## Notes
 
-- **Database**: The tests will run using a test database, which Django creates and destroys automatically for each test run.
-- **Messages**: Be sure to match any success or error messages in the views with the assertions in the tests.
-- **Edge Cases**: It's a good idea to write additional tests for edge cases, such as invalid form submissions or unauthorized access.
+<details>
+<summary>View the coverage result of product app (image of)</summary>
 
-For any issues or suggestions, feel free to open a discussion or submit a pull request.
+![Product app](docs/coverage_product.png)
+</details>
+
+<details>
+<summary>View the coverage result of reservation app (image of)</summary>
+
+![Product app](docs/coverage_reservation.png)
+</details>
 
 ## Technologies Used
 
@@ -373,3 +682,21 @@ If you prefer not to use Git, you can download the repository as a ZIP file.
 - Click on the **Code** dropdown and select **Download ZIP**.
 - Once the download is complete, extract the ZIP file to your desired location.
 - You can now open and work on the project in your local environment.
+
+
+## Credits
+
+
+**Readme guidance**
+
+[README.md - How, What and When?](https://www.youtube.com/watch?v=l1DE7L-4eKQ) 
+
+[Kera Cudmore's readme examples](https://github.com/kera-cudmore/readme-examples) <br>
+I copied the deployment section from this example.
+
+**Thanks to my friends and family for testing the game and providing feedback.**
+
+**Special thanks**
+Special thanks to my husband Jimi for patience and support with the copywriting and proofreading of all texts both site and readme.<br>
+Fellow students in the Swedish channel<br>
+And a very Special thank you goes to Mentor Rohit Sharma for excellent support!
