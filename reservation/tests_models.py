@@ -3,6 +3,7 @@ from django.test import TestCase
 from product.models import Item, Quantity, Preserve, StockItem
 from reservation.models import MyReservation
 
+
 class TestReservationModels(TestCase):
 
     def setUp(self):
@@ -42,10 +43,11 @@ class TestReservationModels(TestCase):
             reserved_by=self.user,
             reservation_complete=0  # 'Started' status
         )
-        self.assertEqual(reservation.reserved_note, "This is a test reservation")
+        self.assertEqual(reservation.reserved_note,
+                         "This is a test reservation")
         self.assertEqual(str(reservation.reserved_date), "2024-10-05")
         self.assertEqual(reservation.reserved_by, self.user)
-        self.assertEqual(reservation.reservation_complete, 0)  # 'Started' status
+        self.assertEqual(reservation.reservation_complete, 0)
 
     def test_stockitem_association(self):
         # Test that a StockItem can be associated with a reservation
@@ -71,7 +73,8 @@ class TestReservationModels(TestCase):
         self.assertEqual(reservation.reservation_complete, 2)
 
     def test_auto_increment_reservation_id(self):
-        # Test that the reservation_id is automatically incremented in the database
+        # Test that the reservation_id is automatically
+        # incremented in the database
         reservation1 = MyReservation.objects.create(
             reserved_note="First reservation",
             reserved_date="2024-10-05",
@@ -82,10 +85,13 @@ class TestReservationModels(TestCase):
             reserved_date="2024-10-06",
             reserved_by=self.user
         )
-        self.assertTrue(reservation1.reservation_id < reservation2.reservation_id)
+        self.assertTrue(
+            reservation1.reservation_id < reservation2.reservation_id
+        )
 
     def test_delete_reservation_restores_stock(self):
-        # Test that when a reservation is deleted, the stock items become available again
+        # Test that when a reservation is deleted,
+        # the stock items become available again
         reservation = MyReservation.objects.create(
             reserved_note="Reservation with stock to delete",
             reserved_date="2024-10-05",
@@ -97,4 +103,4 @@ class TestReservationModels(TestCase):
 
         # Refresh the StockItem to check if its status is restored
         self.stock_item.refresh_from_db()
-        self.assertEqual(self.stock_item.status, 0)  # Ensure it's available again
+        self.assertEqual(self.stock_item.status, 0)

@@ -3,8 +3,6 @@ from .forms import StoreReservationForm
 
 
 class TestStoreReservationForm(TestCase):
-    # 'reserved_note', 
-    # 'reserved_date'
     def test_form_is_valid(self):
         store_reservation = StoreReservationForm({
             'reserved_note': 'This is a great cake',
@@ -18,3 +16,4 @@ class TestStoreReservationForm(TestCase):
             'reserved_date': '2'  # YYYY-MM-DD format
             })
         self.assertFalse(store_reservation.is_valid(), msg="Form is valid")
+        

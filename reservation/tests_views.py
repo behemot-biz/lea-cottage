@@ -1,11 +1,20 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
+from unittest.mock import patch
+import cloudinary.uploader
 from product.models import Item, Quantity, Preserve, StockItem
 from reservation.models import MyReservation
 
 
 class TestProductReservation(TestCase):
+
+    @patch('cloudinary.uploader.upload')
+    def setUp(self, mock_upload):
+        mock_upload.return_value = {
+            'secure_url': 'http://example.com/test-image.jpg'
+        }
+
     def setUp(self):
 
         self.user = User.objects.create_user(
@@ -112,24 +121,30 @@ class TestProductReservation(TestCase):
         self.reservation.refresh_from_db()
         self.assertNotIn(self.stock_item, self.reservation.stock_items.all())
         self.assertRedirects(response, reverse('reservation'))
-    
+
     def test_successful_reservation_submission(self):
         # Test for submitting a reservation
         reservation_data = {
             'reserved_note': 'This is a test reservation',
             'reserved_date': '2024-10-05',
         }
-        response = self.client.post(reverse('add_to_reservation', args=[self.stock_item.id]), reservation_data)
-        
+        response = self.client.post(reverse(
+            'add_to_reservation', args=[self.stock_item.id]), reservation_data)
+
         # Check the response status code
-        self.assertEqual(response.status_code, 302)  # Assuming it redirects to the reservations page
+        self.assertEqual(response.status_code, 302)
 
         # Check that the reservation was created
         reservation = MyReservation.objects.get(reserved_by=self.user)
-        self.assertEqual(reservation.reserved_note, 'This is a test reservation')
+        self.assertEqual(
+            reservation.reserved_note,
+            'This is a test reservation'
+            )
         self.assertEqual(str(reservation.reserved_date), '2024-10-05')
 
         # Check if the correct success message is displayed
         response = self.client.get(reverse('reservation'))
-        self.assertIn(b'Sample Item added to your reservation', response.content)
-        
+        self.assertIn(
+            b'Sample Item added to your reservation',
+            response.content
+            )
